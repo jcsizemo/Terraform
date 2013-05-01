@@ -7,6 +7,7 @@
 
 #ifndef PLAYER_H
 #define	PLAYER_H
+#include "drawable.h"
 
 class Player {
 public:

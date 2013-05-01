@@ -4,6 +4,10 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>Drawable.h</itemPath>
+      <itemPath>Player.h</itemPath>
+      <itemPath>Tile.h</itemPath>
+      <itemPath>World.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -12,7 +16,11 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>main.cpp</itemPath>
+      <itemPath>Drawable.cpp</itemPath>
+      <itemPath>Player.cpp</itemPath>
+      <itemPath>Terraform.cpp</itemPath>
+      <itemPath>Tile.cpp</itemPath>
+      <itemPath>World.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"

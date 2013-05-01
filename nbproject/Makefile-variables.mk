@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-MacOSX
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-MacOSX
-CND_ARTIFACT_NAME_Debug=terraform_1
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-MacOSX/terraform_1
+CND_ARTIFACT_NAME_Debug=terraform
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-MacOSX/terraform
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-MacOSX/package
-CND_PACKAGE_NAME_Debug=terraform1.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-MacOSX/package/terraform1.tar
+CND_PACKAGE_NAME_Debug=terraform.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-MacOSX/package/terraform.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-MacOSX
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-MacOSX
-CND_ARTIFACT_NAME_Release=terraform_1
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-MacOSX/terraform_1
+CND_ARTIFACT_NAME_Release=terraform
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-MacOSX/terraform
 CND_PACKAGE_DIR_Release=dist/Release/GNU-MacOSX/package
-CND_PACKAGE_NAME_Release=terraform1.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-MacOSX/package/terraform1.tar
+CND_PACKAGE_NAME_Release=terraform.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-MacOSX/package/terraform.tar
 #
 # include compiler specific variables
 #

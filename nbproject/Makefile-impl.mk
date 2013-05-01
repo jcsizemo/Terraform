@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Terraform_1
+PROJECTNAME=Terraform
 
 # Active Configuration
 DEFAULTCONF=Debug

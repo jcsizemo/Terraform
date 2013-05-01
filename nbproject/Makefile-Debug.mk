@@ -34,7 +34,11 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/Drawable.o \
+	${OBJECTDIR}/World.o \
+	${OBJECTDIR}/Player.o \
+	${OBJECTDIR}/Terraform.o \
+	${OBJECTDIR}/Tile.o
 
 
 # C Compiler Flags
@@ -55,16 +59,36 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/terraform_1
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/terraform
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/terraform_1: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/terraform: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -framework GLUT -framework OpenGL -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/terraform_1 ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.cc} -framework GLUT -framework OpenGL -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/terraform ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
-${OBJECTDIR}/main.o: main.cpp 
+${OBJECTDIR}/Drawable.o: Drawable.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Drawable.o Drawable.cpp
+
+${OBJECTDIR}/World.o: World.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/World.o World.cpp
+
+${OBJECTDIR}/Player.o: Player.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Player.o Player.cpp
+
+${OBJECTDIR}/Terraform.o: Terraform.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Terraform.o Terraform.cpp
+
+${OBJECTDIR}/Tile.o: Tile.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Tile.o Tile.cpp
 
 # Subprojects
 .build-subprojects:
@@ -72,7 +96,7 @@ ${OBJECTDIR}/main.o: main.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/terraform_1
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/terraform
 
 # Subprojects
 .clean-subprojects:
