@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/World.o \
 	${OBJECTDIR}/Player.o \
 	${OBJECTDIR}/Terraform.o \
+	${OBJECTDIR}/Mesh.o \
 	${OBJECTDIR}/Tile.o
 
 
@@ -84,6 +85,11 @@ ${OBJECTDIR}/Terraform.o: Terraform.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Terraform.o Terraform.cpp
+
+${OBJECTDIR}/Mesh.o: Mesh.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Mesh.o Mesh.cpp
 
 ${OBJECTDIR}/Tile.o: Tile.cpp 
 	${MKDIR} -p ${OBJECTDIR}

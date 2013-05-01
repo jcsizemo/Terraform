@@ -9,7 +9,52 @@
 #include <GL/glew.h>
 #include <GLUT/glut.h>
 
+#include "Player.h"
+
+#define FPS 30
+
 using namespace std;
+
+Player *player;
+
+void enable(void) {
+    GLfloat specular[] = {1, 1, 1, 1}; // specular light for the shiny reflections on the spheres/tower
+    GLfloat ambient[] = {0.01, 0.01, 0.01, 1}; // low ambient light.
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
+    GLfloat diffuse[] = {1, 1, 1, 1}; // diffuse light for the lighting of the spheres/tower
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
+
+    GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};  // white specular material
+    GLfloat mat_shininess[] = {50.0};               // shiny!
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+
+    GLfloat light0_position[] = {0, 80, 0, 1}; // Last 1 means light is positional, if a zero then directional
+    glShadeModel(GL_SMOOTH); // Put spotlight directly above center platform.
+    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 45.0); // 45 degree spotlight
+    GLfloat spot0_direction[] = {0.0, -1.0, 0.0}; // shine directly downward
+    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot0_direction);
+    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.5);
+    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+
+    glLightfv(GL_LIGHT1, GL_AMBIENT, ambient); // Set LIGHT1 to have the same parameters
+    glLightfv(GL_LIGHT1, GL_SPECULAR, specular);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuse);
+    GLfloat light1_position[] = {0, 100, -200, 1}; // Set it 100 units above the "playground"
+    glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 60.0); // 60 degree spotlight
+    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spot0_direction); // Straight down
+    glLightf(GL_LIGHT1, GL_CONSTANT_ATTENUATION, 0.5);
+    glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
+
+    glEnable(GL_DEPTH_TEST); //enable the depth testing
+    glEnable(GL_LIGHTING); //enable the lighting
+    glEnable(GL_LIGHT0); //enable LIGHT0
+    glEnable(GL_LIGHT1); // enable LIGHT1
+    glEnable(GL_BLEND); // enable blending
+    glEnable(GL_COLOR_MATERIAL); // enable coloring
+
+}
 
 void reshape(int w, int h) {
     glViewport(0, 0, (GLsizei) w, (GLsizei) h); //set the viewport to the current window specifications
@@ -28,6 +73,18 @@ void display(void) {
     glClearColor(0.0, 0.0, 0.0, 1.0); //clear the screen to black
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
     glLoadIdentity();
+    
+    player->camera();
+    enable();
+    glColor3f(1,0,0);
+    glutSolidCube(2);
+    
+    glPushMatrix();
+    glTranslated(0,0,-5);
+    glColor3f(0,1,0);
+    glutSolidCube(2);
+    glPopMatrix();
+    
     glutSwapBuffers(); //swap the buffers
 }
 
@@ -39,6 +96,8 @@ void directional(int key, int x, int y) {
 // Function controlling keyboard inputs.
 
 void keyboard(unsigned char key, int x, int y) {
+    
+    player->keyboard(key, x, y);
 
     // toggle program exit with 'escape'
     if (key == 27) {
@@ -50,8 +109,7 @@ void keyboard(unsigned char key, int x, int y) {
 // Function controlling mouse movement.
 
 void mouseMovement(int x, int y) {
-
-
+    player->mouseMovement(x,y);
 }
 
 // Mouse click function. Sets up joint selection.
@@ -66,6 +124,9 @@ void mouseClick(int button, int state, int x, int y) {
 }
 
 int main(int argc, char** argv) {
+    
+    player = new Player(0,2,15,0,0);
+    
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH); // double and depth buffering
     glutInitWindowSize(1000, 700); // window size

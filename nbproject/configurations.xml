@@ -5,6 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>Drawable.h</itemPath>
+      <itemPath>Mesh.h</itemPath>
       <itemPath>Player.h</itemPath>
       <itemPath>Tile.h</itemPath>
       <itemPath>World.h</itemPath>
@@ -17,6 +18,7 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>Drawable.cpp</itemPath>
+      <itemPath>Mesh.cpp</itemPath>
       <itemPath>Player.cpp</itemPath>
       <itemPath>Terraform.cpp</itemPath>
       <itemPath>Tile.cpp</itemPath>
