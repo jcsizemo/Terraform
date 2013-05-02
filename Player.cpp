@@ -11,8 +11,6 @@
 #include <GLUT/glut.h>
 #include <cmath>
 
-using namespace std;
-
 Player::Player(double x, double y, double z, double xrot, double yrot) {
     this->xpos = x;
     this->ypos = y;
@@ -31,13 +29,12 @@ Player::~Player() {
 void Player::camera() {
     yrotrad = (yrot / 180 * 3.141592654f); // update polar and azimuth angles
     xrotrad = (xrot / 180 * 3.141592654f);
-    ycam = -float(sin(xrotrad))*1; // update camera vector
-    xcam = float(sin(yrotrad))*1 * cos(xrotrad);
-    zcam = -float(cos(yrotrad))*1 * cos(xrotrad);
+    this->ycam = -float(sin(xrotrad))*1; // update camera vector
+    this->xcam = float(sin(yrotrad))*1 * cos(xrotrad);
+    this->zcam = -float(cos(yrotrad))*1 * cos(xrotrad);
     glRotatef(this->xrot, 1.0, 0.0, 0.0); //rotate our camera on the x-axis (left and right)
     glRotatef(this->yrot, 0.0, 1.0, 0.0); //rotate our camera on the y-axis (up and down)
     glTranslated(-this->xpos, -this->ypos, -this->zpos); //translate the screen to the position of our camera
-    cout << "X: " << xpos << ",Y: " << ypos << ",Z: " << zpos << endl;
 }
 
 void Player::mouseMovement(int x, int y) {

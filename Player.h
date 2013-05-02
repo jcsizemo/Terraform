@@ -10,6 +10,8 @@
 #include "drawable.h"
 #include <iostream>
 
+using namespace std;
+
 class Player {
 public:
     Player(double x, double y, double z, double xRot, double yRot);

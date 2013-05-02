@@ -10,12 +10,16 @@
 #include <GLUT/glut.h>
 
 #include "Player.h"
+#include "Mesh.h"
+#include "MeshTriangle.h"
 
 #define FPS 30
 
 using namespace std;
 
 Player *player;
+Mesh *structure;
+
 
 void enable(void) {
     GLfloat specular[] = {1, 1, 1, 1}; // specular light for the shiny reflections on the spheres/tower
@@ -76,10 +80,12 @@ void display(void) {
     
     player->camera();
     enable();
-    glColor3f(1,0,0);
-    glutSolidCube(2);
+    structure->draw();
+    cout << structure->intersect(player->xpos,player->ypos,player->zpos,player->xcam,player->ycam,player->zcam) << endl;
     
     glPushMatrix();
+    glColor3f(1,0,0);
+    glutSolidCube(2);
     glTranslated(0,0,-5);
     glColor3f(0,1,0);
     glutSolidCube(2);
@@ -126,6 +132,7 @@ void mouseClick(int button, int state, int x, int y) {
 int main(int argc, char** argv) {
     
     player = new Player(0,2,15,0,0);
+    structure = new Mesh("structure.msh");
     
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH); // double and depth buffering
