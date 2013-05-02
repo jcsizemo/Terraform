@@ -30,7 +30,7 @@ public:
     int lastx;
     int lasty;
     bool firstTouch;
-    void keyboard(unsigned char key, int x, int y);
+    void keyboard(unsigned char key, int x, int y, double dt);
     void mouseMovement(int x, int y);
     void camera();
 private:

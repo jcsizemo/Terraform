@@ -22,7 +22,7 @@ class MeshTriangle;
 
 class Mesh {
 public:
-    Mesh(const char* filename);
+    Mesh(const char* filename, double xpos, double ypos, double zpos);
     Mesh(const Mesh& orig);
     virtual ~Mesh();
     void readModel(const char* filename);
@@ -31,6 +31,9 @@ public:
     vector<MeshTriangle*> tris;
     void draw();
     bool intersect(double xpos, double ypos, double zpos, double xcam, double ycam, double zcam);
+    double xpos;
+    double ypos;
+    double zpos;
 private:
 
 };

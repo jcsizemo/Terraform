@@ -8,18 +8,21 @@
 #include <cstdlib>
 #include <GL/glew.h>
 #include <GLUT/glut.h>
+#include <ctime>
 
 #include "Player.h"
 #include "Mesh.h"
 #include "MeshTriangle.h"
-
-#define FPS 30
 
 using namespace std;
 
 Player *player;
 Mesh *structure;
 
+//time_t lastTime;
+double dt = -1;
+clock_t t;
+bool initTime = true;
 
 void enable(void) {
     GLfloat specular[] = {1, 1, 1, 1}; // specular light for the shiny reflections on the spheres/tower
@@ -29,8 +32,8 @@ void enable(void) {
     GLfloat diffuse[] = {1, 1, 1, 1}; // diffuse light for the lighting of the spheres/tower
     glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
 
-    GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};  // white specular material
-    GLfloat mat_shininess[] = {50.0};               // shiny!
+    GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0}; // white specular material
+    GLfloat mat_shininess[] = {50.0}; // shiny!
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 
@@ -74,36 +77,42 @@ void reshape(int w, int h) {
 
 void display(void) {
 
+    t = clock();
+
     glClearColor(0.0, 0.0, 0.0, 1.0); //clear the screen to black
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
     glLoadIdentity();
-    
-    player->camera();
+
     enable();
+    player->camera();
     structure->draw();
-    cout << structure->intersect(player->xpos,player->ypos,player->zpos,player->xcam,player->ycam,player->zcam) << endl;
-    
+//    cout << structure->intersect(player->xpos, player->ypos, player->zpos, player->xcam, player->ycam, player->zcam) << endl;
+
     glPushMatrix();
-    glColor3f(1,0,0);
+    glColor3f(1, 0, 0);
     glutSolidCube(2);
-    glTranslated(0,0,-5);
-    glColor3f(0,1,0);
+    glTranslated(0, 0, -5);
+    glColor3f(0, 1, 0);
     glutSolidCube(2);
     glPopMatrix();
-    
+
     glutSwapBuffers(); //swap the buffers
+
+    t = clock() - t;
+    dt = (((double) t) / CLOCKS_PER_SEC);
+    cout << dt << endl;
 }
 
 void directional(int key, int x, int y) {
 
-    
+
 }
 
 // Function controlling keyboard inputs.
 
 void keyboard(unsigned char key, int x, int y) {
-    
-    player->keyboard(key, x, y);
+
+    player->keyboard(key, x, y, dt);
 
     // toggle program exit with 'escape'
     if (key == 27) {
@@ -115,7 +124,7 @@ void keyboard(unsigned char key, int x, int y) {
 // Function controlling mouse movement.
 
 void mouseMovement(int x, int y) {
-    player->mouseMovement(x,y);
+    player->mouseMovement(x, y);
 }
 
 // Mouse click function. Sets up joint selection.
@@ -130,10 +139,10 @@ void mouseClick(int button, int state, int x, int y) {
 }
 
 int main(int argc, char** argv) {
-    
-    player = new Player(0,2,15,0,0);
-    structure = new Mesh("structure.msh");
-    
+
+    player = new Player(0, 2, 15, 0, 0);
+    structure = new Mesh("structure.msh", 5, 0, 0);
+
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH); // double and depth buffering
     glutInitWindowSize(1000, 700); // window size

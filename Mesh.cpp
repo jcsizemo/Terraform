@@ -7,7 +7,10 @@
 
 #include "Mesh.h"
 
-Mesh::Mesh(const char* filename) {
+Mesh::Mesh(const char* filename, double xpos, double ypos, double zpos) {
+    this->xpos = xpos;
+    this->ypos = ypos;
+    this->zpos = zpos;
     readModel(filename);
 }
 
@@ -18,10 +21,11 @@ Mesh::~Mesh() {
 }
 
 void Mesh::setMeshData(double *vertices, int *tris, int numVerts, int numTris) {
+        
     for (int i = 0; i < numVerts; i++) {
-        this->verts.push_back(vertices[3*i]);
-        this->verts.push_back(vertices[3*i+1]);
-        this->verts.push_back(vertices[3*i+2]);
+        this->verts.push_back(vertices[3*i] + this->xpos);
+        this->verts.push_back(vertices[3*i+1] + this->ypos);
+        this->verts.push_back(vertices[3*i+2] + this->zpos);
     }
     
     for (int i = 0; i < numTris; i++) {

@@ -11,6 +11,8 @@
 #include <GLUT/glut.h>
 #include <cmath>
 
+int movePerSec = 1000;
+
 Player::Player(double x, double y, double z, double xrot, double yrot) {
     this->xpos = x;
     this->ypos = y;
@@ -56,9 +58,9 @@ void Player::mouseMovement(int x, int y) {
     if (yrot < -360) yrot += 360;
 }
 
-void Player::keyboard(unsigned char key, int x, int y) {
-    float sineStep = float(sin(yrotrad)); // depending on the polar angle,
-    float cosStep = float(cos(yrotrad)); // the step increments change
+void Player::keyboard(unsigned char key, int x, int y, double dt) {
+    float sineStep = movePerSec*dt*float(sin(yrotrad)); // depending on the polar angle,
+    float cosStep = movePerSec*dt*float(cos(yrotrad)); // the step increments change
 
     if (key == 'w') { // forward
         xpos += sineStep;
