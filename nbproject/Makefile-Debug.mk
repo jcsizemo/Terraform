@@ -34,7 +34,6 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/Drawable.o \
 	${OBJECTDIR}/World.o \
 	${OBJECTDIR}/Player.o \
 	${OBJECTDIR}/Terraform.o \
@@ -66,11 +65,6 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/terraform: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -framework GLUT -framework OpenGL -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/terraform ${OBJECTFILES} ${LDLIBSOPTIONS} 
-
-${OBJECTDIR}/Drawable.o: Drawable.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Drawable.o Drawable.cpp
 
 ${OBJECTDIR}/World.o: World.cpp 
 	${MKDIR} -p ${OBJECTDIR}

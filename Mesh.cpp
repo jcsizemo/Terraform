@@ -71,12 +71,9 @@ void Mesh::draw() {
     glBegin(GL_TRIANGLES);
     for (int i = 0; i < this->tris.size(); i++) {
         MeshTriangle *tri = tris.at(i);
-        int t1 = tri->v0;
-        int t2 = tri->v1;
-        int t3 = tri->v2;
-        glVertex3f(verts.at(3*t1),verts.at(3*t1+1),verts.at(3*t1+2));
-        glVertex3f(verts.at(3*t2),verts.at(3*t2+1),verts.at(3*t2+2));
-        glVertex3f(verts.at(3*t3),verts.at(3*t3+1),verts.at(3*t3+2));
+        glVertex3f(verts.at(3*tri->v0),verts.at(3*tri->v0+1),verts.at(3*tri->v0+2));
+        glVertex3f(verts.at(3*tri->v1),verts.at(3*tri->v1+1),verts.at(3*tri->v1+2));
+        glVertex3f(verts.at(3*tri->v2),verts.at(3*tri->v2+1),verts.at(3*tri->v2+2));
     }
     glEnd();
     glPopMatrix();
