@@ -4,25 +4,32 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>Firebomb.h</itemPath>
       <itemPath>Mesh.h</itemPath>
       <itemPath>MeshTriangle.h</itemPath>
       <itemPath>Player.h</itemPath>
+      <itemPath>Structure.h</itemPath>
       <itemPath>Tile.h</itemPath>
+      <itemPath>Weapon.h</itemPath>
       <itemPath>World.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <itemPath>sphere.msh</itemPath>
       <itemPath>structure.msh</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>Firebomb.cpp</itemPath>
       <itemPath>Mesh.cpp</itemPath>
       <itemPath>MeshTriangle.cpp</itemPath>
       <itemPath>Player.cpp</itemPath>
+      <itemPath>Structure.cpp</itemPath>
       <itemPath>Terraform.cpp</itemPath>
       <itemPath>Tile.cpp</itemPath>
+      <itemPath>Weapon.cpp</itemPath>
       <itemPath>World.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"

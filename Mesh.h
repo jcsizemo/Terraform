@@ -29,11 +29,15 @@ public:
     void setMeshData(double *vertices, int *triangles, int numVerts, int numTris);
     vector<double> verts;
     vector<MeshTriangle*> tris;
-    void draw();
+    virtual void draw(double dt);
     bool intersect(double xpos, double ypos, double zpos, double xcam, double ycam, double zcam);
     double xpos;
     double ypos;
     double zpos;
+    double dx;
+    double dy;
+    double dz;
+    double t;
 private:
 
 };

@@ -34,10 +34,13 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Firebomb.o \
 	${OBJECTDIR}/World.o \
 	${OBJECTDIR}/Player.o \
+	${OBJECTDIR}/Structure.o \
 	${OBJECTDIR}/Terraform.o \
 	${OBJECTDIR}/MeshTriangle.o \
+	${OBJECTDIR}/Weapon.o \
 	${OBJECTDIR}/Mesh.o \
 	${OBJECTDIR}/Tile.o
 
@@ -66,6 +69,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/terraform: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -framework GLUT -framework OpenGL -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/terraform ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
+${OBJECTDIR}/Firebomb.o: Firebomb.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Firebomb.o Firebomb.cpp
+
 ${OBJECTDIR}/World.o: World.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -76,6 +84,11 @@ ${OBJECTDIR}/Player.o: Player.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Player.o Player.cpp
 
+${OBJECTDIR}/Structure.o: Structure.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Structure.o Structure.cpp
+
 ${OBJECTDIR}/Terraform.o: Terraform.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -85,6 +98,11 @@ ${OBJECTDIR}/MeshTriangle.o: MeshTriangle.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/MeshTriangle.o MeshTriangle.cpp
+
+${OBJECTDIR}/Weapon.o: Weapon.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Weapon.o Weapon.cpp
 
 ${OBJECTDIR}/Mesh.o: Mesh.cpp 
 	${MKDIR} -p ${OBJECTDIR}

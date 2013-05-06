@@ -11,7 +11,7 @@
 #include <GLUT/glut.h>
 #include <cmath>
 
-int movePerSec = 1000;
+double movePerSec = 1000;
 
 Player::Player(double x, double y, double z, double xrot, double yrot) {
     this->xpos = x;
@@ -28,7 +28,7 @@ Player::Player(const Player& orig) {
 Player::~Player() {
 }
 
-void Player::camera() {
+void Player::camera(double dt, vector<Structure*> *structures) {
     yrotrad = (yrot / 180 * 3.141592654f); // update polar and azimuth angles
     xrotrad = (xrot / 180 * 3.141592654f);
     this->ycam = -float(sin(xrotrad))*1; // update camera vector
@@ -37,6 +37,31 @@ void Player::camera() {
     glRotatef(this->xrot, 1.0, 0.0, 0.0); //rotate our camera on the x-axis (left and right)
     glRotatef(this->yrot, 0.0, 1.0, 0.0); //rotate our camera on the y-axis (up and down)
     glTranslated(-this->xpos, -this->ypos, -this->zpos); //translate the screen to the position of our camera
+
+    //    cout << "X: " << this->xpos << ", Y: " << this->ypos << ", Z: " << this->zpos << endl;
+    //    cout << dt << endl;
+
+
+    for (int i = 0; i < this->weapons.size(); i++) {
+        glPushMatrix();
+        Weapon *w = this->weapons.at(i);
+        if (w->t > 1) {
+            weapons.erase(weapons.begin() + i);
+        } else {
+            glColor3dv(w->color);
+            w->draw(dt);
+            for (int j = 0; j < w->verts.size(); j += 3) {
+                for (int k = 0; k < structures->size(); k++) {
+                    if (structures->at(k)->intersect(w->verts.at(j), w->verts.at(j+1), 
+                            w->verts.at(j+2), w->xcam, w->ycam, w->zcam)) {
+                        cout << "Hit something" << endl;
+                        w->hitSomething = true;
+                    }
+                }
+            }
+        }
+        glPopMatrix();
+    }
 }
 
 void Player::mouseMovement(int x, int y) {
@@ -47,8 +72,7 @@ void Player::mouseMovement(int x, int y) {
     if (!firstTouch) {
         xrot += (float) diffy; //set the xrot to xrot with the addition of the difference in the y position
         yrot += (float) diffx; //set the xrot to yrot with the addition of the difference in the x position
-    }
-    else {
+    } else {
         firstTouch = false;
     }
     if (xrot > 90) xrot = 90; // Fix azimuth range to 180 degrees
@@ -59,8 +83,8 @@ void Player::mouseMovement(int x, int y) {
 }
 
 void Player::keyboard(unsigned char key, int x, int y, double dt) {
-    float sineStep = movePerSec*dt*float(sin(yrotrad)); // depending on the polar angle,
-    float cosStep = movePerSec*dt*float(cos(yrotrad)); // the step increments change
+    float sineStep = (movePerSec * dt) * float(sin(yrotrad)); // depending on the polar angle,
+    float cosStep = (movePerSec * dt) * float(cos(yrotrad)); // the step increments change
 
     if (key == 'w') { // forward
         xpos += sineStep;
@@ -80,6 +104,11 @@ void Player::keyboard(unsigned char key, int x, int y, double dt) {
     if (key == 'a') { // left
         xpos -= cosStep;
         zpos -= sineStep;
+    }
+
+    if (key == 't') {
+        this->weapons.push_back(new Firebomb("sphere.msh", this->xpos, this->ypos, this->zpos,
+                this->xcam, this->ycam, this->zcam));
     }
 }
 

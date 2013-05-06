@@ -9,15 +9,17 @@
 #include <GL/glew.h>
 #include <GLUT/glut.h>
 #include <ctime>
+#include <vector>
 
 #include "Player.h"
 #include "Mesh.h"
 #include "MeshTriangle.h"
+#include "Structure.h"
 
 using namespace std;
 
 Player *player;
-Mesh *structure;
+vector<Structure*> structures;
 
 //time_t lastTime;
 double dt = -1;
@@ -84,23 +86,18 @@ void display(void) {
     glLoadIdentity();
 
     enable();
-    player->camera();
-    structure->draw();
-//    cout << structure->intersect(player->xpos, player->ypos, player->zpos, player->xcam, player->ycam, player->zcam) << endl;
-
-    glPushMatrix();
-    glColor3f(1, 0, 0);
-    glutSolidCube(2);
-    glTranslated(0, 0, -5);
-    glColor3f(0, 1, 0);
-    glutSolidCube(2);
-    glPopMatrix();
-
+      
+    player->camera(dt,&structures);
+    
+    for (int i = 0; i < structures.size(); i++) {
+        structures.at(i)->draw(dt);
+//        cout << structures.at(i)->intersect(player->xpos, player->ypos, player->zpos, player->xcam, player->ycam, player->zcam) << endl;
+    }
+    
     glutSwapBuffers(); //swap the buffers
 
     t = clock() - t;
     dt = (((double) t) / CLOCKS_PER_SEC);
-    cout << dt << endl;
 }
 
 void directional(int key, int x, int y) {
@@ -141,7 +138,9 @@ void mouseClick(int button, int state, int x, int y) {
 int main(int argc, char** argv) {
 
     player = new Player(0, 2, 15, 0, 0);
-    structure = new Mesh("structure.msh", 5, 0, 0);
+    
+    double color[3] = {0,0,1};
+    structures.push_back(new Structure("structure.msh", 5, 0, 0, &color[0]));
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH); // double and depth buffering

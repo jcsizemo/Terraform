@@ -89,7 +89,7 @@ bool MeshTriangle::intersect(double xpos, double ypos, double zpos, double xcam,
       // ray.end is 1. Want to check if the intersection is right in front of the player
       // t != t will be false if t is NaN
       // increase the value is t > 1 to expand influence of collision
-      if (t < 0 || t > 1000000 || (t != t))
+      if (t < 0 || t > 1 || (t != t))
         return false;
   
       // Fill out the record

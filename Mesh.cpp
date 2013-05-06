@@ -11,6 +11,10 @@ Mesh::Mesh(const char* filename, double xpos, double ypos, double zpos) {
     this->xpos = xpos;
     this->ypos = ypos;
     this->zpos = zpos;
+    this->dx = 0;
+    this->dy = 0;
+    this->dz = 0;
+    this->t = 0;
     readModel(filename);
 }
 
@@ -66,7 +70,7 @@ void Mesh::readModel(const char* filename) {  // function reading in Blender mod
     setMeshData(vertices,triangles,nPoints,nPolys);
 }
 
-void Mesh::draw() {
+void Mesh::draw(double dt) {
     glPushMatrix();
     glBegin(GL_TRIANGLES);
     for (int i = 0; i < this->tris.size(); i++) {

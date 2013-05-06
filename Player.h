@@ -8,8 +8,14 @@
 #ifndef PLAYER_H
 #define	PLAYER_H
 #include <iostream>
+#include <vector>
+#include "Weapon.h"
+#include "Firebomb.h"
+#include "Structure.h"
 
 using namespace std;
+
+class Weapon;
 
 class Player {
 public:
@@ -29,9 +35,10 @@ public:
     int lastx;
     int lasty;
     bool firstTouch;
+    vector<Weapon*> weapons;
     void keyboard(unsigned char key, int x, int y, double dt);
     void mouseMovement(int x, int y);
-    void camera();
+    void camera(double dt, vector<Structure*> *structures);
 private:
 
 };
