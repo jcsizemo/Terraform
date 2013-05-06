@@ -55,6 +55,7 @@ void Player::camera(double dt, vector<Structure*> *structures) {
                 for (int k = 0; k < structures->size(); k++) {
                     if (structures->at(k)->intersect(mt->x0,mt->y0,mt->z0, w->xcam, w->ycam, w->zcam)) {
                         w->collided = true;
+                        mt->collided = true;
                         cout << "Hit something" << endl;
                         if (w->collided && w->initCollision) {
                             w->setCollisionTrajectories();
@@ -63,6 +64,7 @@ void Player::camera(double dt, vector<Structure*> *structures) {
                     }
                     if (structures->at(k)->intersect(mt->x1,mt->y1,mt->z1,w->xcam, w->ycam, w->zcam)) {
                         w->collided = true;
+                        mt->collided = true;
                         cout << "Hit something" << endl;
                         if (w->collided && w->initCollision) {
                             w->setCollisionTrajectories();
@@ -71,6 +73,7 @@ void Player::camera(double dt, vector<Structure*> *structures) {
                     }
                     if (structures->at(k)->intersect(mt->x2,mt->y2,mt->z2, w->xcam, w->ycam, w->zcam)) {
                         w->collided = true;
+                        mt->collided = true;
                         cout << "Hit something" << endl;
                         if (w->collided && w->initCollision) {
                             w->setCollisionTrajectories();

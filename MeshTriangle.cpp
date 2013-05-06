@@ -16,6 +16,7 @@ MeshTriangle::MeshTriangle(Mesh *parent, int inV0, int inV1, int inV2) {
     this->ctY = 0;
     this->ctZ = 0;
     this->ctSpd = 0;
+    this->collided = false;
     
     this->x0 = this->parent->verts.at(3 * v0);
     this->y0 = this->parent->verts.at(3 * v0 + 1);
@@ -94,7 +95,7 @@ bool MeshTriangle::intersect(double xpos, double ypos, double zpos, double xcam,
       // ray.end is 1. Want to check if the intersection is right in front of the player
       // t != t will be false if t is NaN
       // increase the value is t > 1 to expand influence of collision
-      if (t < 0 || t > 1 || (t != t))
+      if (t < 0 || t > 0.5 || (t != t))
         return false;
   
       // Fill out the record
@@ -157,7 +158,7 @@ bool MeshTriangle::intersect(double xpos, double ypos, double zpos, double xcam,
 //        outRecord.texCoords.set(weight0 * t0x + beta * t1x + gamma * t2x, weight0 * t0y + beta * t1y + gamma * t2y);
 //  
 //      }
-  
+      this->collided = true;
       return true;
     
 }

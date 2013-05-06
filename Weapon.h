@@ -25,7 +25,7 @@ public:
     double t;
     bool collided;
     bool initCollision;
-    void setCollisionTrajectories();
+    virtual void setCollisionTrajectories();
 private:
 
 };

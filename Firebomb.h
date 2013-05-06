@@ -18,6 +18,7 @@ public:
             double xcam, double ycam, double zcam);
     virtual ~Firebomb();
     void draw(double dt);
+    void setCollisionTrajectories();
 private:
 
 };
