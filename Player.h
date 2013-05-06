@@ -37,6 +37,7 @@ public:
     bool firstTouch;
     vector<Weapon*> weapons;
     void keyboard(unsigned char key, int x, int y, double dt);
+    void keyboard(bool *keys, double dt);
     void mouseMovement(int x, int y);
     void camera(double dt, vector<Structure*> *structures);
 private:

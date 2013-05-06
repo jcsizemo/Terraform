@@ -21,6 +21,8 @@ using namespace std;
 Player *player;
 vector<Structure*> structures;
 
+bool keys[255];
+
 //time_t lastTime;
 double dt = -1;
 clock_t t;
@@ -79,8 +81,9 @@ void reshape(int w, int h) {
 
 void display(void) {
 
+    dt = (((double) clock() - t) / CLOCKS_PER_SEC);
     t = clock();
-
+    
     glClearColor(0.0, 0.0, 0.0, 1.0); //clear the screen to black
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
     glLoadIdentity();
@@ -88,6 +91,7 @@ void display(void) {
     enable();
       
     player->camera(dt,&structures);
+    player->keyboard(&keys[0],dt);
     
     for (int i = 0; i < structures.size(); i++) {
         structures.at(i)->draw(dt);
@@ -95,9 +99,6 @@ void display(void) {
     }
     
     glutSwapBuffers(); //swap the buffers
-
-    t = clock() - t;
-    dt = (((double) t) / CLOCKS_PER_SEC);
 }
 
 void directional(int key, int x, int y) {
@@ -107,15 +108,20 @@ void directional(int key, int x, int y) {
 
 // Function controlling keyboard inputs.
 
-void keyboard(unsigned char key, int x, int y) {
-
-    player->keyboard(key, x, y, dt);
+void keyDown(unsigned char key, int x, int y) {
+    keys[key] = true;
 
     // toggle program exit with 'escape'
     if (key == 27) {
         exit(0);
     }
 
+}
+
+void keyUp(unsigned char key, int x, int y) {
+    
+    keys[key] = false;
+    
 }
 
 // Function controlling mouse movement.
@@ -155,7 +161,11 @@ int main(int argc, char** argv) {
     glutPassiveMotionFunc(mouseMovement); //check for mouse movement
     glutMouseFunc(mouseClick);
 
-    glutKeyboardFunc(keyboard); // set keyboard function
+    glutKeyboardFunc(keyDown); // set keyboard function
+    glutKeyboardUpFunc(keyUp);
+    
+    t = clock();
+    
     glutMainLoop();
     return 0;
 }

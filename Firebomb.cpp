@@ -7,7 +7,7 @@
 
 #include "Firebomb.h"
 
-double vel = 50;
+double vel = 100;
 
 Firebomb::Firebomb(const char *filename, double xpos, double ypos, double zpos,
         double xcam, double ycam, double zcam) : Weapon(filename, xpos,
@@ -23,9 +23,9 @@ Firebomb::~Firebomb() {
 void Firebomb::draw(double dt) {
     Weapon::draw(dt);
     if (!this->hitSomething) {
-        double dx = vel * dt*xcam;
-        double dy = vel * dt*ycam;
-        double dz = vel * dt*zcam;
+        double dx = vel*dt*xcam;
+        double dy = vel*dt*ycam;
+        double dz = vel*dt*zcam;
         this->xpos += dx;
         this->ypos += dy;
         this->zpos += dz;

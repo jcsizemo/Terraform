@@ -11,7 +11,7 @@
 #include <GLUT/glut.h>
 #include <cmath>
 
-double movePerSec = 1000;
+double movePerSec = 50;
 
 Player::Player(double x, double y, double z, double xrot, double yrot) {
     this->xpos = x;
@@ -82,33 +82,35 @@ void Player::mouseMovement(int x, int y) {
     if (yrot < -360) yrot += 360;
 }
 
-void Player::keyboard(unsigned char key, int x, int y, double dt) {
+void Player::keyboard(bool *keys, double dt) {
     float sineStep = (movePerSec * dt) * float(sin(yrotrad)); // depending on the polar angle,
     float cosStep = (movePerSec * dt) * float(cos(yrotrad)); // the step increments change
 
-    if (key == 'w') { // forward
+    if (keys['w']) { // forward
         xpos += sineStep;
         zpos -= cosStep;
     }
 
-    if (key == 's') { // backward
+    if (keys['s']) { // backward
         xpos -= sineStep;
         zpos += cosStep;
     }
 
-    if (key == 'd') { // right
+    if (keys['d']) { // right
         xpos += cosStep;
         zpos += sineStep;
     }
 
-    if (key == 'a') { // left
+    if (keys['a']) { // left
         xpos -= cosStep;
         zpos -= sineStep;
     }
 
-    if (key == 't') {
-        this->weapons.push_back(new Firebomb("sphere.msh", this->xpos, this->ypos, this->zpos,
+    if (keys['t']) {
+        if (this->weapons.size() < 1) {
+            this->weapons.push_back(new Firebomb("sphere.msh", this->xpos, this->ypos, this->zpos,
                 this->xcam, this->ycam, this->zcam));
+        }
     }
 }
 
