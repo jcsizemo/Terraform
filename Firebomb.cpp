@@ -7,7 +7,7 @@
 
 #include "Firebomb.h"
 
-double vel = 100;
+double vel = 80;
 
 Firebomb::Firebomb(const char *filename, double xpos, double ypos, double zpos,
         double xcam, double ycam, double zcam) : Weapon(filename, xpos,
@@ -22,17 +22,40 @@ Firebomb::~Firebomb() {
 
 void Firebomb::draw(double dt) {
     Weapon::draw(dt);
-    if (!this->hitSomething) {
+    if (!this->collided) {
         double dx = vel*dt*xcam;
         double dy = vel*dt*ycam;
         double dz = vel*dt*zcam;
         this->xpos += dx;
         this->ypos += dy;
         this->zpos += dz;
-        for (int i = 0; i < this->verts.size(); i += 3) {
-            verts.at(i) += dx;
-            verts.at(i + 1) += dy;
-            verts.at(i + 2) += dz;
+        for (int i = 0; i < this->tris.size(); i++) {
+            this->tris.at(i)->x0 += dx;
+            this->tris.at(i)->x1 += dx;
+            this->tris.at(i)->x2 += dx;
+            this->tris.at(i)->y0 += dy;
+            this->tris.at(i)->y1 += dy;
+            this->tris.at(i)->y2 += dy;
+            this->tris.at(i)->z0 += dz;
+            this->tris.at(i)->z1 += dz;
+            this->tris.at(i)->z2 += dz;
+        }
+    }
+    else {
+        for (int i = 0; i < this->tris.size(); i++) {
+            MeshTriangle *mt = this->tris.at(i);
+            double dx = mt->ctSpd*dt*mt->ctX;
+            double dy = mt->ctSpd*dt*mt->ctY;
+            double dz = mt->ctSpd*dt*mt->ctZ;
+            mt->x0 += dx;
+            mt->y0 += dy;
+            mt->z0 += dz;
+            mt->x1 += dx;
+            mt->y1 += dy;
+            mt->z1 += dz;
+            mt->x2 += dx;
+            mt->y2 += dy;
+            mt->z2 += dz;
         }
     }
 

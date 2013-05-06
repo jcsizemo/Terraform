@@ -11,10 +11,6 @@ Mesh::Mesh(const char* filename, double xpos, double ypos, double zpos) {
     this->xpos = xpos;
     this->ypos = ypos;
     this->zpos = zpos;
-    this->dx = 0;
-    this->dy = 0;
-    this->dz = 0;
-    this->t = 0;
     readModel(filename);
 }
 
@@ -75,9 +71,9 @@ void Mesh::draw(double dt) {
     glBegin(GL_TRIANGLES);
     for (int i = 0; i < this->tris.size(); i++) {
         MeshTriangle *tri = tris.at(i);
-        glVertex3f(verts.at(3*tri->v0),verts.at(3*tri->v0+1),verts.at(3*tri->v0+2));
-        glVertex3f(verts.at(3*tri->v1),verts.at(3*tri->v1+1),verts.at(3*tri->v1+2));
-        glVertex3f(verts.at(3*tri->v2),verts.at(3*tri->v2+1),verts.at(3*tri->v2+2));
+        glVertex3f(tri->x0,tri->y0,tri->z0);
+        glVertex3f(tri->x1,tri->y1,tri->z1);
+        glVertex3f(tri->x2,tri->y2,tri->z2);
     }
     glEnd();
     glPopMatrix();

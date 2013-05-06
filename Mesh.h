@@ -34,10 +34,6 @@ public:
     double xpos;
     double ypos;
     double zpos;
-    double dx;
-    double dy;
-    double dz;
-    double t;
 private:
 
 };

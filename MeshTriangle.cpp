@@ -12,6 +12,21 @@ MeshTriangle::MeshTriangle(Mesh *parent, int inV0, int inV1, int inV2) {
     this->v0 = inV0;
     this->v1 = inV1;
     this->v2 = inV2;
+    this->ctX = 0;
+    this->ctY = 0;
+    this->ctZ = 0;
+    this->ctSpd = 0;
+    
+    this->x0 = this->parent->verts.at(3 * v0);
+    this->y0 = this->parent->verts.at(3 * v0 + 1);
+    this->z0 = this->parent->verts.at(3 * v0 + 2);
+    this->x1 = this->parent->verts.at(3 * v1);
+    this->y1 = this->parent->verts.at(3 * v1 + 1);
+    this->z1 = this->parent->verts.at(3 * v1 + 2);
+    this->x2 = this->parent->verts.at(3 * v2);
+    this->y2 = this->parent->verts.at(3 * v2 + 1);
+    this->z2 = this->parent->verts.at(3 * v2 + 2);
+    
 }
 
 MeshTriangle::MeshTriangle(const MeshTriangle& orig) {
@@ -24,24 +39,14 @@ bool MeshTriangle::intersect(double xpos, double ypos, double zpos, double xcam,
     
      // Rename the components of each vertex for convienience (and save many
       // field access computations)
-    
-      const double v0x = this->parent->verts.at(3 * v0);
-      const double v0y = this->parent->verts.at(3 * v0 + 1);
-      const double v0z = this->parent->verts.at(3 * v0 + 2);
-      const double v1x = this->parent->verts.at(3 * v1);
-      const double v1y = this->parent->verts.at(3 * v1 + 1);
-      const double v1z = this->parent->verts.at(3 * v1 + 2);
-      const double v2x = this->parent->verts.at(3 * v2);
-      const double v2y = this->parent->verts.at(3 * v2 + 1);
-      const double v2z = this->parent->verts.at(3 * v2 + 2);
   
       // Compute elements of the triangle ray matrix
-      double A = v0x - v1x;
-      double B = v0y - v1y;
-      double C = v0z - v1z;
-      double D = v0x - v2x;
-      double E = v0y - v2y;
-      double F = v0z - v2z;
+      double A = x0 - x1;
+      double B = y0 - y1;
+      double C = z0 - z1;
+      double D = x0 - x2;
+      double E = y0 - y2;
+      double F = z0 - z2;
   
       // Rename ray directions for clarity and convenience
       double G = xcam;
@@ -58,9 +63,9 @@ bool MeshTriangle::intersect(double xpos, double ypos, double zpos, double xcam,
       double inv_denom = 1.0 / (A * EIHF + B * GFDI + C * DHEG);
   
       // Compute the direction from the ray origin to the first vertex
-      double J = v0x - xpos;
-      double K = v0y - ypos;
-      double L = v0z - zpos;
+      double J = x0 - xpos;
+      double K = y0 - ypos;
+      double L = z0 - zpos;
   
       // Compute the beta coordinate
       double beta = inv_denom * (J * EIHF + K * GFDI + L * DHEG);

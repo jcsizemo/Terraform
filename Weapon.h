@@ -22,7 +22,10 @@ public:
     double ycam;
     double zcam;
     virtual void draw(double dt);
-    bool hitSomething;
+    double t;
+    bool collided;
+    bool initCollision;
+    void setCollisionTrajectories();
 private:
 
 };

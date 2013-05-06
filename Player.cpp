@@ -50,12 +50,32 @@ void Player::camera(double dt, vector<Structure*> *structures) {
         } else {
             glColor3dv(w->color);
             w->draw(dt);
-            for (int j = 0; j < w->verts.size(); j += 3) {
+            for (int j = 0; j < w->tris.size(); j++) {
+                MeshTriangle *mt = w->tris.at(j);
                 for (int k = 0; k < structures->size(); k++) {
-                    if (structures->at(k)->intersect(w->verts.at(j), w->verts.at(j+1), 
-                            w->verts.at(j+2), w->xcam, w->ycam, w->zcam)) {
+                    if (structures->at(k)->intersect(mt->x0,mt->y0,mt->z0, w->xcam, w->ycam, w->zcam)) {
+                        w->collided = true;
                         cout << "Hit something" << endl;
-                        w->hitSomething = true;
+                        if (w->collided && w->initCollision) {
+                            w->setCollisionTrajectories();
+                            w->initCollision = false;
+                        }
+                    }
+                    if (structures->at(k)->intersect(mt->x1,mt->y1,mt->z1,w->xcam, w->ycam, w->zcam)) {
+                        w->collided = true;
+                        cout << "Hit something" << endl;
+                        if (w->collided && w->initCollision) {
+                            w->setCollisionTrajectories();
+                            w->initCollision = false;
+                        }
+                    }
+                    if (structures->at(k)->intersect(mt->x2,mt->y2,mt->z2, w->xcam, w->ycam, w->zcam)) {
+                        w->collided = true;
+                        cout << "Hit something" << endl;
+                        if (w->collided && w->initCollision) {
+                            w->setCollisionTrajectories();
+                            w->initCollision = false;
+                        }
                     }
                 }
             }

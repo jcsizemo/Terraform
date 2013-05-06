@@ -109,8 +109,10 @@ void directional(int key, int x, int y) {
 // Function controlling keyboard inputs.
 
 void keyDown(unsigned char key, int x, int y) {
-    keys[key] = true;
-
+    if (!keys[key]) {
+        keys[key] = true;
+    }
+    
     // toggle program exit with 'escape'
     if (key == 27) {
         exit(0);
@@ -120,7 +122,9 @@ void keyDown(unsigned char key, int x, int y) {
 
 void keyUp(unsigned char key, int x, int y) {
     
-    keys[key] = false;
+    if (keys[key]) {
+        keys[key] = false;
+    }
     
 }
 

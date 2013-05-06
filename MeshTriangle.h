@@ -22,6 +22,20 @@ public:
     int v0;
     int v1;
     int v2;
+    double x0;
+    double x1;
+    double x2;
+    double y0;
+    double y1;
+    double y2;
+    double z0;
+    double z1;
+    double z2;
+    double ctX;
+    double ctY;
+    double ctZ;
+    double ctSpd;
+    bool collided;
     bool intersect(double xpos, double ypos, double zpos, double xcam, double ycam, double zcam);
 private:
 

@@ -37,8 +37,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/Firebomb.o \
 	${OBJECTDIR}/World.o \
 	${OBJECTDIR}/Player.o \
-	${OBJECTDIR}/Structure.o \
 	${OBJECTDIR}/Terraform.o \
+	${OBJECTDIR}/Structure.o \
 	${OBJECTDIR}/MeshTriangle.o \
 	${OBJECTDIR}/Weapon.o \
 	${OBJECTDIR}/Mesh.o \
@@ -84,15 +84,15 @@ ${OBJECTDIR}/Player.o: Player.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Player.o Player.cpp
 
-${OBJECTDIR}/Structure.o: Structure.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Structure.o Structure.cpp
-
 ${OBJECTDIR}/Terraform.o: Terraform.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Terraform.o Terraform.cpp
+
+${OBJECTDIR}/Structure.o: Structure.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Structure.o Structure.cpp
 
 ${OBJECTDIR}/MeshTriangle.o: MeshTriangle.cpp 
 	${MKDIR} -p ${OBJECTDIR}
