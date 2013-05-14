@@ -15,8 +15,13 @@
 #include "Mesh.h"
 #include "MeshTriangle.h"
 #include "Structure.h"
+#include "GLScreenCapturer.h"
 
 using namespace std;
+
+// Init screen cap
+static GLScreenCapturer screenshot("screenshot-%d.ppm");
+bool record = false;
 
 Player *player;
 vector<Structure*> structures;
@@ -26,7 +31,6 @@ bool keys[255];
 //time_t lastTime;
 double dt = -1;
 clock_t t;
-bool initTime = true;
 
 void enable(void) {
     GLfloat specular[] = {1, 1, 1, 1}; // specular light for the shiny reflections on the spheres/tower
@@ -59,10 +63,10 @@ void enable(void) {
     glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
 
     glEnable(GL_DEPTH_TEST); //enable the depth testing
-    glEnable(GL_LIGHTING); //enable the lighting
-    glEnable(GL_LIGHT0); //enable LIGHT0
-    glEnable(GL_LIGHT1); // enable LIGHT1
-    glEnable(GL_BLEND); // enable blending
+//    glEnable(GL_LIGHTING); //enable the lighting
+//    glEnable(GL_LIGHT0); //enable LIGHT0
+//    glEnable(GL_LIGHT1); // enable LIGHT1
+//    glEnable(GL_BLEND); // enable blending
     glEnable(GL_COLOR_MATERIAL); // enable coloring
 
 }
@@ -84,6 +88,10 @@ void display(void) {
     dt = (((double) clock() - t) / CLOCKS_PER_SEC);
     t = clock();
     
+    if (record) {
+        screenshot.capture(); // record screen cap if enabled
+    }
+    
     glClearColor(0.0, 0.0, 0.0, 1.0); //clear the screen to black
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
     glLoadIdentity();
@@ -95,7 +103,6 @@ void display(void) {
     
     for (int i = 0; i < structures.size(); i++) {
         structures.at(i)->draw(dt);
-//        cout << structures.at(i)->intersect(player->xpos, player->ypos, player->zpos, player->xcam, player->ycam, player->zcam) << endl;
     }
     
     glutSwapBuffers(); //swap the buffers
@@ -116,6 +123,14 @@ void keyDown(unsigned char key, int x, int y) {
     // toggle program exit with 'escape'
     if (key == 27) {
         exit(0);
+    }
+    
+    if (key == 'q') { // toggle screen cap
+        if (record) {
+            record = false;
+        } else {
+            record = true;
+        }
     }
 
 }

@@ -15,10 +15,13 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include "ParticleMachine.h"
 
 using namespace std;
 
 class MeshTriangle;
+
+class ParticleMachine;
 
 class Mesh {
 public:
@@ -29,6 +32,7 @@ public:
     void setMeshData(double *vertices, int *triangles, int numVerts, int numTris);
     vector<double> verts;
     vector<MeshTriangle*> tris;
+    vector<ParticleMachine*> particles;
     virtual void draw(double dt);
     bool intersect(double xpos, double ypos, double zpos, double xcam, double ycam, double zcam);
     double xpos;

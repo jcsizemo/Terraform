@@ -19,20 +19,22 @@ Structure::~Structure() {
 
 void Structure::draw(double dt) {
     glPushMatrix();
-    glBegin(GL_TRIANGLES);
     for (int i = 0; i < this->tris.size(); i++) {
         MeshTriangle *tri = tris.at(i);
-        if (tri->collided) {
-            glColor3d(1,1,1);
-        }
-        else {
-            glColor3dv(this->color);
-        }
+        glBegin(GL_TRIANGLES);
+        glColor3dv(this->color);
         glVertex3f(tri->x0,tri->y0,tri->z0);
         glVertex3f(tri->x1,tri->y1,tri->z1);
         glVertex3f(tri->x2,tri->y2,tri->z2);
+        glEnd();
+        if (tri->collided) {
+            for (int i = 0; i < this->particles.size(); i++) {
+                ParticleMachine *pm = particles.at(i);
+                pm->updateParticles(dt);
+                pm->drawParticles(dt);
+            }
+        }
     }
-    glEnd();
     glPopMatrix();
     glColor3d(0,0,0);
 }

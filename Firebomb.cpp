@@ -21,6 +21,10 @@ ypos, zpos, xcam, ycam, zcam) {
 Firebomb::~Firebomb() {
 }
 
+bool Firebomb::isFirebomb() {
+    return true;
+}
+
 void Firebomb::draw(double dt) {
     Weapon::draw(dt);
     if (!this->collided) {

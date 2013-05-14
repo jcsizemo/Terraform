@@ -11,6 +11,7 @@
 #include "Mesh.h"
 
 class Mesh;
+class ParticleMachine;
 
 class Structure : public Mesh {
 public:

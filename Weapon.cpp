@@ -27,3 +27,7 @@ void Weapon::draw(double dt) {
 void Weapon::setCollisionTrajectories() {
     
 }
+
+bool Weapon::isFirebomb() {
+    
+}

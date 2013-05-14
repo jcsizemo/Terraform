@@ -26,6 +26,7 @@ public:
     bool collided;
     bool initCollision;
     virtual void setCollisionTrajectories();
+    virtual bool isFirebomb();
 private:
 
 };

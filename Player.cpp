@@ -47,35 +47,37 @@ void Player::camera(double dt, vector<Structure*> *structures) {
         Weapon *w = this->weapons.at(i);
         if (w->t > 1) {
             weapons.erase(weapons.begin() + i);
+            delete w;
         } else {
             glColor3dv(w->color);
             w->draw(dt);
+            bool isFire = w->isFirebomb();
             for (int j = 0; j < w->tris.size(); j++) {
                 MeshTriangle *mt = w->tris.at(j);
                 for (int k = 0; k < structures->size(); k++) {
-                    if (structures->at(k)->intersect(mt->x0,mt->y0,mt->z0, w->xcam, w->ycam, w->zcam)) {
+                    if (structures->at(k)->intersect(mt->x0,mt->y0,mt->z0, 
+                            w->xcam, w->ycam, w->zcam)) {
                         w->collided = true;
                         mt->collided = true;
-                        cout << "Hit something" << endl;
-                        if (w->collided && w->initCollision) {
+                        if (w->initCollision && w->collided) {
                             w->setCollisionTrajectories();
                             w->initCollision = false;
                         }
                     }
-                    if (structures->at(k)->intersect(mt->x1,mt->y1,mt->z1,w->xcam, w->ycam, w->zcam)) {
+                    if (structures->at(k)->intersect(mt->x1,mt->y1,mt->z1,
+                            w->xcam, w->ycam, w->zcam)) {
                         w->collided = true;
                         mt->collided = true;
-                        cout << "Hit something" << endl;
-                        if (w->collided && w->initCollision) {
+                        if (w->initCollision && w->collided) {
                             w->setCollisionTrajectories();
                             w->initCollision = false;
                         }
                     }
-                    if (structures->at(k)->intersect(mt->x2,mt->y2,mt->z2, w->xcam, w->ycam, w->zcam)) {
+                    if (structures->at(k)->intersect(mt->x2,mt->y2,mt->z2,
+                            w->xcam, w->ycam, w->zcam)) {
                         w->collided = true;
                         mt->collided = true;
-                        cout << "Hit something" << endl;
-                        if (w->collided && w->initCollision) {
+                        if (w->initCollision && w->collided) {
                             w->setCollisionTrajectories();
                             w->initCollision = false;
                         }

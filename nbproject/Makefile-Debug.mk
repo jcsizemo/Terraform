@@ -36,13 +36,17 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/Firebomb.o \
 	${OBJECTDIR}/World.o \
+	${OBJECTDIR}/Flame.o \
 	${OBJECTDIR}/Player.o \
-	${OBJECTDIR}/Terraform.o \
 	${OBJECTDIR}/Structure.o \
+	${OBJECTDIR}/Terraform.o \
 	${OBJECTDIR}/MeshTriangle.o \
 	${OBJECTDIR}/Weapon.o \
+	${OBJECTDIR}/WaterBalloon.o \
 	${OBJECTDIR}/Mesh.o \
-	${OBJECTDIR}/Tile.o
+	${OBJECTDIR}/Tile.o \
+	${OBJECTDIR}/GLScreenCapturer.o \
+	${OBJECTDIR}/ParticleMachine.o
 
 
 # C Compiler Flags
@@ -79,20 +83,25 @@ ${OBJECTDIR}/World.o: World.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/World.o World.cpp
 
+${OBJECTDIR}/Flame.o: Flame.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Flame.o Flame.cpp
+
 ${OBJECTDIR}/Player.o: Player.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Player.o Player.cpp
 
-${OBJECTDIR}/Terraform.o: Terraform.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Terraform.o Terraform.cpp
-
 ${OBJECTDIR}/Structure.o: Structure.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Structure.o Structure.cpp
+
+${OBJECTDIR}/Terraform.o: Terraform.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Terraform.o Terraform.cpp
 
 ${OBJECTDIR}/MeshTriangle.o: MeshTriangle.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -104,6 +113,11 @@ ${OBJECTDIR}/Weapon.o: Weapon.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Weapon.o Weapon.cpp
 
+${OBJECTDIR}/WaterBalloon.o: WaterBalloon.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/WaterBalloon.o WaterBalloon.cpp
+
 ${OBJECTDIR}/Mesh.o: Mesh.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -113,6 +127,16 @@ ${OBJECTDIR}/Tile.o: Tile.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Tile.o Tile.cpp
+
+${OBJECTDIR}/GLScreenCapturer.o: GLScreenCapturer.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/GLScreenCapturer.o GLScreenCapturer.cpp
+
+${OBJECTDIR}/ParticleMachine.o: ParticleMachine.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/ParticleMachine.o ParticleMachine.cpp
 
 # Subprojects
 .build-subprojects:
