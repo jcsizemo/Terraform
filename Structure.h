@@ -9,9 +9,12 @@
 #define	STRUCTURE_H
 
 #include "Mesh.h"
+#include "Light.h"
+#include <cmath>
 
 class Mesh;
 class ParticleMachine;
+class Light;
 
 class Structure : public Mesh {
 public:
@@ -19,7 +22,7 @@ public:
             double zpos, double *color);
     virtual ~Structure();
     double color[3];
-    void draw(double dt);
+    void draw(double dt, vector<Light*> *lights);
 private:
 
 };

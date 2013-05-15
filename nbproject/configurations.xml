@@ -6,7 +6,8 @@
                    projectFiles="true">
       <itemPath>Firebomb.h</itemPath>
       <itemPath>Flame.h</itemPath>
-      <itemPath>GlScreenCapturer.h</itemPath>
+      <itemPath>GLScreenCapturer.h</itemPath>
+      <itemPath>Light.h</itemPath>
       <itemPath>Mesh.h</itemPath>
       <itemPath>MeshTriangle.h</itemPath>
       <itemPath>ParticleMachine.h</itemPath>
@@ -21,10 +22,15 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <itemPath>../../Desktop/brightFlame.raw</itemPath>
       <itemPath>flame.raw</itemPath>
-      <itemPath>flame_mask.raw</itemPath>
+      <itemPath>grass.raw</itemPath>
+      <itemPath>moon.raw</itemPath>
       <itemPath>sphere.msh</itemPath>
+      <itemPath>stars.raw</itemPath>
+      <itemPath>stars2.raw</itemPath>
       <itemPath>structure.msh</itemPath>
+      <itemPath>tree.msh</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
@@ -32,6 +38,7 @@
       <itemPath>Firebomb.cpp</itemPath>
       <itemPath>Flame.cpp</itemPath>
       <itemPath>GLScreenCapturer.cpp</itemPath>
+      <itemPath>Light.cpp</itemPath>
       <itemPath>Mesh.cpp</itemPath>
       <itemPath>MeshTriangle.cpp</itemPath>
       <itemPath>ParticleMachine.cpp</itemPath>

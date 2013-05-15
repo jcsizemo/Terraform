@@ -10,7 +10,15 @@
 
 #include <climits>
 #include <GL/glew.h>
+#if defined(_WIN32)
+#include <GL/wglew.h>
+#endif
+
+#if defined(__APPLE__) || defined(MACOSX)
 #include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
 #include <stdio.h>
 #include <cstdlib>
 
@@ -31,6 +39,7 @@ public:
 
     typedef struct {
         double life;
+        double maxLife;
         double fade;
         double x;
         double y;
@@ -47,7 +56,7 @@ public:
         double t;
     } PARTICLES;
     
-    PARTICLES Particle[5];
+    PARTICLES Particle[10];
     
 private:
 

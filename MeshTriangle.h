@@ -34,6 +34,15 @@ public:
     double ctX;
     double ctY;
     double ctZ;
+    double nX;
+    double nY;
+    double nZ;
+    double A;
+    double B;
+    double C;
+    double D;
+    double E;
+    double F;
     double ctSpd;
     bool collided;
     bool intersect(double xpos, double ypos, double zpos, double xcam, double ycam, double zcam);

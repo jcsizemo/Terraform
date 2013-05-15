@@ -8,7 +8,15 @@
 #include <cstdlib>
 #include "Player.h"
 #include <GL/glew.h>
+#if defined(_WIN32)
+#include <GL/wglew.h>
+#endif
+
+#if defined(__APPLE__) || defined(MACOSX)
 #include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
 #include <cmath>
 
 double movePerSec = 50;
@@ -34,14 +42,18 @@ void Player::camera(double dt, vector<Structure*> *structures) {
     this->ycam = -float(sin(xrotrad))*1; // update camera vector
     this->xcam = float(sin(yrotrad))*1 * cos(xrotrad);
     this->zcam = -float(cos(yrotrad))*1 * cos(xrotrad);
-    glRotatef(this->xrot, 1.0, 0.0, 0.0); //rotate our camera on the x-axis (left and right)
-    glRotatef(this->yrot, 0.0, 1.0, 0.0); //rotate our camera on the y-axis (up and down)
-    glTranslated(-this->xpos, -this->ypos, -this->zpos); //translate the screen to the position of our camera
-
-    //    cout << "X: " << this->xpos << ", Y: " << this->ypos << ", Z: " << this->zpos << endl;
-    //    cout << dt << endl;
-
-
+    bool playerHitSomething = false;
+//    for (int i = 0; i < structures->size(); i++) {
+//        if (structures->at(i)->intersect(this->xpos,this->ypos,this->zpos,
+//                this->xcam,this->ycam,this->zcam)) {
+//            playerHitSomething = true;
+//        }
+//    }
+//    if (!playerHitSomething) {
+        glRotatef(this->xrot, 1.0, 0.0, 0.0); //rotate our camera on the x-axis (left and right)
+        glRotatef(this->yrot, 0.0, 1.0, 0.0); //rotate our camera on the y-axis (up and down)
+        glTranslated(-this->xpos, -this->ypos, -this->zpos); //translate the screen to the position of our camera
+//    }
     for (int i = 0; i < this->weapons.size(); i++) {
         glPushMatrix();
         Weapon *w = this->weapons.at(i);

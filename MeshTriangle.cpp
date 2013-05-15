@@ -28,7 +28,23 @@ MeshTriangle::MeshTriangle(Mesh *parent, int inV0, int inV1, int inV2) {
     this->x2 = this->parent->verts.at(3 * v2);
     this->y2 = this->parent->verts.at(3 * v2 + 1);
     this->z2 = this->parent->verts.at(3 * v2 + 2);
+    
+    // Compute elements of the triangle ray matrix
+    this->A = x0 - x1;
+    this->B = y0 - y1;
+    this->C = z0 - z1;
+    this->D = x0 - x2;
+    this->E = y0 - y2;
+    this->F = z0 - z2;
 
+    this->nX = B * F - C * E;
+    this->nY = C * D - A * F;
+    this->nZ = A * E - B * D;
+    
+    double mag = sqrt(nX * nX + nY * nY + nZ * nZ);
+    this->nX /= mag;
+    this->nY /= mag;
+    this->nZ /= mag;
 }
 
 MeshTriangle::MeshTriangle(const MeshTriangle& orig) {
@@ -42,14 +58,6 @@ bool MeshTriangle::intersect(double xpos, double ypos, double zpos,
 
     // Rename the components of each vertex for convienience (and save many
     // field access computations)
-
-    // Compute elements of the triangle ray matrix
-    double A = x0 - x1;
-    double B = y0 - y1;
-    double C = z0 - z1;
-    double D = x0 - x2;
-    double E = y0 - y2;
-    double F = z0 - z2;
 
     // Rename ray directions for clarity and convenience
     double G = xcam;
@@ -100,75 +108,11 @@ bool MeshTriangle::intersect(double xpos, double ypos, double zpos,
     if (t < 0 || t > 1 || (t != t))
         return false;
 
-    // Fill out the record
-    //      outRecord.t = t;
-    //      outRecord.surface = this;
-
     // Faster to compute location using barycentric coordinates than
     // computations using Vector3
     double weight0 = 1 - beta - gamma; // Barycentric coordinates total 1
-    //      outRecord.frame.o.set(weight0 * v0x + beta * v1x + gamma * v2x, weight0 * v0y + beta * v1y + gamma * v2y, weight0 * v0z + beta * v1z + gamma * v2z);
-    //  
-    // If the normals array is empty use the old calculation
-    //      if (mesh.normals == null) {
-    //  
-    //        // Calculate the normal of the triangle. Again this could be precomputed,
-    //        // but space usually ends up being more important. Plus this is done
-    //        // only when the ray intersects, usually much less than the test is
-    //        // performed.
-    double normx = B * F - C * E;
-    double normy = C * D - A * F;
-    double normz = A * E - B * D;
-    double mag = sqrt(normx * normx + normy * normy + normz * normz);
-    normx /= mag;
-    normy /= mag;
-    normz /= mag;
-    //        this->ctX += normx;
-    //        this->ctY += normy;
-    //        this->ctZ += normz;
-    //        outRecord.frame.w.set(normx, normy, normz);
-    //        outRecord.frame.initFromW();
-    //  
-    //      }
 
-    // Else compute the normals using the normal list and the barycentric
-    //      // coordinates
-    //      else {
-    //  
-    //        // Read the normal coordinates
-    //        double n0x = mesh.normals[3 * v0];
-    //        double n0y = mesh.normals[3 * v0 + 1];
-    //        double n0z = mesh.normals[3 * v0 + 2];
-    //        double n1x = mesh.normals[3 * v1];
-    //        double n1y = mesh.normals[3 * v1 + 1];
-    //        double n1z = mesh.normals[3 * v1 + 2];
-    //        double n2x = mesh.normals[3 * v2];
-    //        double n2y = mesh.normals[3 * v2 + 1];
-    //        double n2z = mesh.normals[3 * v2 + 2];
-    //  
-    //        // Compute normal
-    //        outRecord.frame.w.set(weight0 * n0x + beta * n1x + gamma * n2x, weight0 * n0y + beta * n1y + gamma * n2y, weight0 * n0z + beta * n1z + gamma * n2z);
-    //        outRecord.frame.initFromW();
-    //  
-    //      }
-
-    //  If the texture coordinates array is not empty
-    //      if (mesh.texcoords != null) {
-    //  
-    //        //Read the normal coordinates
-    //        double t0x = mesh.texcoords[2 * v0];
-    //        double t0y = mesh.texcoords[2 * v0 + 1];
-    //        double t1x = mesh.texcoords[2 * v1];
-    //        double t1y = mesh.texcoords[2 * v1 + 1];
-    //        double t2x = mesh.texcoords[2 * v2];
-    //        double t2y = mesh.texcoords[2 * v2 + 1];
-    //  
-    //        // Compute normal
-    //        outRecord.texCoords.set(weight0 * t0x + beta * t1x + gamma * t2x, weight0 * t0y + beta * t1y + gamma * t2y);
-    //  
-    //      }
-
-    if (normy > 0.5) {
+    if (nY > 0.2 && !this->collided) {
             double oX = weight0 * this->x0 + beta * this->x1 + gamma * this->x2;
             double oY = weight0 * this->y0 + beta * this->y1 + gamma * this->y2;
             double oZ = weight0 * this->z0 + beta * this->z1 + gamma * this->z2;

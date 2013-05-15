@@ -37,6 +37,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Firebomb.o \
 	${OBJECTDIR}/World.o \
 	${OBJECTDIR}/Flame.o \
+	${OBJECTDIR}/Light.o \
 	${OBJECTDIR}/Player.o \
 	${OBJECTDIR}/Structure.o \
 	${OBJECTDIR}/Terraform.o \
@@ -87,6 +88,11 @@ ${OBJECTDIR}/Flame.o: Flame.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Flame.o Flame.cpp
+
+${OBJECTDIR}/Light.o: Light.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Light.o Light.cpp
 
 ${OBJECTDIR}/Player.o: Player.cpp 
 	${MKDIR} -p ${OBJECTDIR}
