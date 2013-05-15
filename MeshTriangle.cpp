@@ -54,7 +54,7 @@ MeshTriangle::~MeshTriangle() {
 }
 
 bool MeshTriangle::intersect(double xpos, double ypos, double zpos,
-        double xcam, double ycam, double zcam) {
+        double xcam, double ycam, double zcam, vector<Light*> *lights) {
 
     // Rename the components of each vertex for convienience (and save many
     // field access computations)
@@ -119,12 +119,17 @@ bool MeshTriangle::intersect(double xpos, double ypos, double zpos,
             Flame *f = new Flame(oX, oY, oZ);
             if (this->parent->particles.size() < 10) {
                 this->parent->particles.push_back(f);
+                lights->push_back(new Light(oX,oY,oZ,1,0,0));
             }
             else {
                 ParticleMachine *pm = this->parent->particles.at(0);
                 this->parent->particles.erase(this->parent->particles.begin());
                 delete pm;
+                Light *l = lights->at(1);
+                lights->erase(lights->begin()+1);
+                delete l;
                 this->parent->particles.push_back(f);
+                lights->push_back(new Light(oX,oY,oZ,1,0,0));
             }
     }
 

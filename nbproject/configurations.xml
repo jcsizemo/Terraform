@@ -13,10 +13,8 @@
       <itemPath>ParticleMachine.h</itemPath>
       <itemPath>Player.h</itemPath>
       <itemPath>Structure.h</itemPath>
-      <itemPath>Tile.h</itemPath>
       <itemPath>WaterBalloon.h</itemPath>
       <itemPath>Weapon.h</itemPath>
-      <itemPath>World.h</itemPath>
       <itemPath>macros.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -45,10 +43,8 @@
       <itemPath>Player.cpp</itemPath>
       <itemPath>Structure.cpp</itemPath>
       <itemPath>Terraform.cpp</itemPath>
-      <itemPath>Tile.cpp</itemPath>
       <itemPath>WaterBalloon.cpp</itemPath>
       <itemPath>Weapon.cpp</itemPath>
-      <itemPath>World.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"

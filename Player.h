@@ -12,10 +12,12 @@
 #include "Weapon.h"
 #include "Firebomb.h"
 #include "Structure.h"
+#include "Light.h"
 
 using namespace std;
 
 class Weapon;
+class Light;
 
 class Player {
 public:
@@ -38,7 +40,7 @@ public:
     vector<Weapon*> weapons;
     void keyboard(bool *keys, double dt);
     void mouseMovement(int x, int y);
-    void camera(double dt, vector<Structure*> *structures);
+    void camera(double dt, vector<Structure*> *structures, vector<Light*> *lights);
 private:
 
 };

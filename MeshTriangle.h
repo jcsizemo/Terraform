@@ -8,10 +8,13 @@
 #ifndef MESHTRIANGLE_H
 #define	MESHTRIANGLE_H
 #include "Mesh.h"
+#include "Light.h"
+#include <vector>
 
 using namespace std;
 
 class Mesh;
+class Light;
 
 class MeshTriangle {
 public:
@@ -45,7 +48,8 @@ public:
     double F;
     double ctSpd;
     bool collided;
-    bool intersect(double xpos, double ypos, double zpos, double xcam, double ycam, double zcam);
+    bool intersect(double xpos, double ypos, double zpos, double xcam, 
+        double ycam, double zcam, vector<Light*> *lights);
 private:
 
 };

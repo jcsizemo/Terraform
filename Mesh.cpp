@@ -62,6 +62,16 @@ void Mesh::readModel(const char* filename) {  // function reading in Blender mod
         }
     }
     
+    in_stream >> line;
+    if (!line.compare("highestTris")) {
+        
+    }
+    
+    in_stream >> line;
+    if (!line.compare("materials")) {
+        
+    }
+    
     in_stream.close();
     setMeshData(vertices,triangles,nPoints,nPolys);
 }
@@ -79,9 +89,10 @@ void Mesh::draw(double dt) {
     glPopMatrix();
 }
 
-bool Mesh::intersect(double xpos, double ypos, double zpos, double xcam, double ycam, double zcam) {
+bool Mesh::intersect(double xpos, double ypos, double zpos,
+        double xcam, double ycam, double zcam, vector<Light*> *lights) {
     for (int i = 0; i < this->tris.size(); i++) {
-        if (tris.at(i)->intersect(xpos,ypos,zpos,xcam,ycam,zcam)) {
+        if (tris.at(i)->intersect(xpos,ypos,zpos,xcam,ycam,zcam,lights)) {
             return true;
         }
     }

@@ -36,7 +36,7 @@ Player::Player(const Player& orig) {
 Player::~Player() {
 }
 
-void Player::camera(double dt, vector<Structure*> *structures) {
+void Player::camera(double dt, vector<Structure*> *structures, vector<Light*> *lights) {
     yrotrad = (yrot / 180 * 3.141592654f); // update polar and azimuth angles
     xrotrad = (xrot / 180 * 3.141592654f);
     this->ycam = -float(sin(xrotrad))*1; // update camera vector
@@ -68,7 +68,7 @@ void Player::camera(double dt, vector<Structure*> *structures) {
                 MeshTriangle *mt = w->tris.at(j);
                 for (int k = 0; k < structures->size(); k++) {
                     if (structures->at(k)->intersect(mt->x0,mt->y0,mt->z0, 
-                            w->xcam, w->ycam, w->zcam)) {
+                            w->xcam, w->ycam, w->zcam, lights)) {
                         w->collided = true;
                         mt->collided = true;
                         if (w->initCollision && w->collided) {
@@ -77,7 +77,7 @@ void Player::camera(double dt, vector<Structure*> *structures) {
                         }
                     }
                     if (structures->at(k)->intersect(mt->x1,mt->y1,mt->z1,
-                            w->xcam, w->ycam, w->zcam)) {
+                            w->xcam, w->ycam, w->zcam, lights)) {
                         w->collided = true;
                         mt->collided = true;
                         if (w->initCollision && w->collided) {
@@ -86,7 +86,7 @@ void Player::camera(double dt, vector<Structure*> *structures) {
                         }
                     }
                     if (structures->at(k)->intersect(mt->x2,mt->y2,mt->z2,
-                            w->xcam, w->ycam, w->zcam)) {
+                            w->xcam, w->ycam, w->zcam, lights)) {
                         w->collided = true;
                         mt->collided = true;
                         if (w->initCollision && w->collided) {

@@ -35,7 +35,6 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Firebomb.o \
-	${OBJECTDIR}/World.o \
 	${OBJECTDIR}/Flame.o \
 	${OBJECTDIR}/Light.o \
 	${OBJECTDIR}/Player.o \
@@ -45,7 +44,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/Weapon.o \
 	${OBJECTDIR}/WaterBalloon.o \
 	${OBJECTDIR}/Mesh.o \
-	${OBJECTDIR}/Tile.o \
 	${OBJECTDIR}/GLScreenCapturer.o \
 	${OBJECTDIR}/ParticleMachine.o
 
@@ -78,11 +76,6 @@ ${OBJECTDIR}/Firebomb.o: Firebomb.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Firebomb.o Firebomb.cpp
-
-${OBJECTDIR}/World.o: World.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/World.o World.cpp
 
 ${OBJECTDIR}/Flame.o: Flame.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -128,11 +121,6 @@ ${OBJECTDIR}/Mesh.o: Mesh.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Mesh.o Mesh.cpp
-
-${OBJECTDIR}/Tile.o: Tile.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Tile.o Tile.cpp
 
 ${OBJECTDIR}/GLScreenCapturer.o: GLScreenCapturer.cpp 
 	${MKDIR} -p ${OBJECTDIR}

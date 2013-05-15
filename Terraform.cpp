@@ -77,7 +77,7 @@ void display(void) {
     glEnable(GL_DEPTH_TEST); //enable the depth testing
     glEnable(GL_COLOR_MATERIAL); // enable coloring
 
-    player->camera(dt, &structures);
+    player->camera(dt, &structures, &lights);
     player->keyboard(&keys[0], dt);
 
     glEnable(GL_TEXTURE_2D);
@@ -196,7 +196,7 @@ int main(int argc, char** argv) {
 
     player = new Player(0, 2, 15, 0, 0);
 
-    double color[3] = {0, 0, 1};
+    double color[3] = {0.5, 0.5, 0.5};
     structures.push_back(new Structure("tree.msh", 5, 0, 0, &color[0]));
 
     glutInit(&argc, argv);

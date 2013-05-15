@@ -24,11 +24,12 @@
 #include <iostream>
 #include <vector>
 #include "ParticleMachine.h"
+#include "Light.h"
 
 using namespace std;
 
 class MeshTriangle;
-
+class Light;
 class ParticleMachine;
 
 class Mesh {
@@ -41,8 +42,11 @@ public:
     vector<double> verts;
     vector<MeshTriangle*> tris;
     vector<ParticleMachine*> particles;
+    vector<int> mtlIndices;
+    vector<double> mtls;
     virtual void draw(double dt);
-    bool intersect(double xpos, double ypos, double zpos, double xcam, double ycam, double zcam);
+    bool intersect(double xpos, double ypos, double zpos, 
+        double xcam, double ycam, double zcam, vector<Light*> *lights);
     double xpos;
     double ypos;
     double zpos;
