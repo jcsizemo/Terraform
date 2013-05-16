@@ -48,7 +48,7 @@ public:
     vector<double> mtls;
     virtual void draw(double dt);
     bool intersect(double xpos, double ypos, double zpos, 
-        double xcam, double ycam, double zcam, vector<Light*> *lights);
+        double xcam, double ycam, double zcam, vector<Light*> *lights, bool isFire);
     double xpos;
     double ypos;
     double zpos;

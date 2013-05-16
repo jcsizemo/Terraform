@@ -19,10 +19,10 @@ class Light;
 class Structure : public Mesh {
 public:
     Structure(const char* filename, double xpos, double ypos, 
-            double zpos, double *color);
+            double zpos);
     virtual ~Structure();
-    double color[3];
     void draw(double dt, vector<Light*> *lights);
+    void revive(void);
 private:
 
 };

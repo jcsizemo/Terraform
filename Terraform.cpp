@@ -45,6 +45,7 @@ GLUquadric *moon;
 GLUquadric *sky;
 
 bool keys[255];
+bool mouse[255];
 
 double dt = -1;
 clock_t t;
@@ -85,7 +86,7 @@ void display(void) {
     
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, moonTexture);
-    glTranslated(-5,300,0);
+    glTranslated(-100,300,0);
     gluSphere(moon,20,36,72);
     glPopMatrix();
     
@@ -112,11 +113,6 @@ void display(void) {
     }
 
     glutSwapBuffers(); //swap the buffers
-}
-
-void directional(int key, int x, int y) {
-
-
 }
 
 // Function controlling keyboard inputs.
@@ -158,12 +154,19 @@ void mouseMovement(int x, int y) {
 // Mouse click function. Sets up joint selection.
 
 void mouseClick(int button, int state, int x, int y) {
-    if ((button == GLUT_LEFT_BUTTON) && (state == GLUT_DOWN)) {
-
+    if ((button == GLUT_LEFT_BUTTON) && (state == GLUT_UP)) {
+        if (player->weapons.size() < 1) {
+            player->weapons.push_back(new Firebomb("firebomb.msh", player->xpos, player->ypos, player->zpos,
+                player->xcam, player->ycam, player->zcam));
+        }
     }
-    if ((button == GLUT_RIGHT_BUTTON) && (state == GLUT_DOWN)) {
-
+    if ((button == GLUT_RIGHT_BUTTON) && (state == GLUT_UP)) {
+        if (player->weapons.size() < 1) {
+            player->weapons.push_back(new WaterBalloon("waterballoon.msh", player->xpos, player->ypos, player->zpos,
+                player->xcam, player->ycam, player->zcam));
+        }
     }
+    mouse[button] = state;
 }
 
 GLuint loadEnvironmentTexture(const char *filename, int w, int h) {
@@ -196,18 +199,22 @@ int main(int argc, char** argv) {
 
     player = new Player(0, 2, 15, 0, 0);
 
-    double color[3] = {0.5, 0.5, 0.5};
-    structures.push_back(new Structure("tree.msh", 5, 0, 0, &color[0]));
+    for (int i = -200; i <= 200; i += 400) {
+        for (int j = -200; j <= 200; j += 400) {
+            structures.push_back(new Structure("tree.msh", i, 0, j));
+        }
+    }
+    structures.push_back(new Structure("tree.msh", 0, 0, 0));
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH); // double and depth buffering
-    glutInitWindowSize(1000, 700); // window size
-    glutInitWindowPosition(100, 100); // window position on screen
-    glutCreateWindow("Terraform"); // window title
+    glutEnterGameMode(); //set glut to fullscreen using the settings in the line above
+//    glutInitWindowSize(1000, 700); // window size
+//    glutInitWindowPosition(100, 100); // window position on screen
+//    glutCreateWindow("Terraform"); // window title
     glutDisplayFunc(display); // set display function
     glutIdleFunc(display); // set idle function
     glutReshapeFunc(reshape); // set reshape function
-    glutSpecialFunc(directional);
 
     glutPassiveMotionFunc(mouseMovement); //check for mouse movement
     glutMouseFunc(mouseClick);
@@ -221,7 +228,7 @@ int main(int argc, char** argv) {
     sky = gluNewQuadric();
     gluQuadricTexture(moon, GL_TRUE);
     gluQuadricTexture(sky, GL_TRUE);
-    lights.push_back(new Light(-5, 300, 0, 1, 1, 1));
+    lights.push_back(new Light(-100, 300, 0, 1, 1, 1));
     
     grassTexture = loadEnvironmentTexture("grass.raw",256,256);
     moonTexture = loadEnvironmentTexture("moon.raw",2000,1000);

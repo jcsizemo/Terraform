@@ -11,6 +11,7 @@
 #include <vector>
 #include "Weapon.h"
 #include "Firebomb.h"
+#include "WaterBalloon.h"
 #include "Structure.h"
 #include "Light.h"
 

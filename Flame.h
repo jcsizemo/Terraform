@@ -19,9 +19,6 @@ public:
     void updateParticles(double dt);
     void drawParticles(double dt);
     void createParticles(double oX, double oY, double oZ);
-    double oX;
-    double oY;
-    double oZ;
     virtual ~Flame();
 private:
 

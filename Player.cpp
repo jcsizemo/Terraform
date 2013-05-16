@@ -42,18 +42,9 @@ void Player::camera(double dt, vector<Structure*> *structures, vector<Light*> *l
     this->ycam = -float(sin(xrotrad))*1; // update camera vector
     this->xcam = float(sin(yrotrad))*1 * cos(xrotrad);
     this->zcam = -float(cos(yrotrad))*1 * cos(xrotrad);
-    bool playerHitSomething = false;
-//    for (int i = 0; i < structures->size(); i++) {
-//        if (structures->at(i)->intersect(this->xpos,this->ypos,this->zpos,
-//                this->xcam,this->ycam,this->zcam)) {
-//            playerHitSomething = true;
-//        }
-//    }
-//    if (!playerHitSomething) {
-        glRotatef(this->xrot, 1.0, 0.0, 0.0); //rotate our camera on the x-axis (left and right)
-        glRotatef(this->yrot, 0.0, 1.0, 0.0); //rotate our camera on the y-axis (up and down)
-        glTranslated(-this->xpos, -this->ypos, -this->zpos); //translate the screen to the position of our camera
-//    }
+    glRotatef(this->xrot, 1.0, 0.0, 0.0); //rotate our camera on the x-axis (left and right)
+    glRotatef(this->yrot, 0.0, 1.0, 0.0); //rotate our camera on the y-axis (up and down)
+    glTranslated(-this->xpos, -this->ypos, -this->zpos); //translate the screen to the position of our camera
     for (int i = 0; i < this->weapons.size(); i++) {
         glPushMatrix();
         Weapon *w = this->weapons.at(i);
@@ -61,39 +52,71 @@ void Player::camera(double dt, vector<Structure*> *structures, vector<Light*> *l
             weapons.erase(weapons.begin() + i);
             delete w;
         } else {
-            glColor3dv(w->color);
             w->draw(dt);
             bool isFire = w->isFirebomb();
             for (int j = 0; j < w->tris.size(); j++) {
                 MeshTriangle *mt = w->tris.at(j);
                 for (int k = 0; k < structures->size(); k++) {
-                    if (structures->at(k)->intersect(mt->x0,mt->y0,mt->z0, 
-                            w->xcam, w->ycam, w->zcam, lights)) {
+                    if (structures->at(k)->intersect(mt->x0, mt->y0, mt->z0,
+                            w->xcam, w->ycam, w->zcam, lights, isFire)) {
                         w->collided = true;
                         mt->collided = true;
                         if (w->initCollision && w->collided) {
                             w->setCollisionTrajectories();
                             w->initCollision = false;
                         }
+                        if (!isFire) {
+                            structures->at(k)->revive();
+                            for (int m = lights->size() - 1; m >= 1; m--) {
+                                Light *l = lights->at(m);
+                                lights->erase(lights->begin() + m);
+                                delete l;
+                            }
+                        }
                     }
-                    if (structures->at(k)->intersect(mt->x1,mt->y1,mt->z1,
-                            w->xcam, w->ycam, w->zcam, lights)) {
+                    if (structures->at(k)->intersect(mt->x1, mt->y1, mt->z1,
+                            w->xcam, w->ycam, w->zcam, lights, isFire)) {
                         w->collided = true;
                         mt->collided = true;
                         if (w->initCollision && w->collided) {
                             w->setCollisionTrajectories();
                             w->initCollision = false;
                         }
+                        if (!isFire) {
+                            structures->at(k)->revive();
+                            for (int m = lights->size() - 1; m >= 1; m--) {
+                                Light *l = lights->at(m);
+                                lights->erase(lights->begin() + m);
+                                delete l;
+                            }
+                        }
                     }
-                    if (structures->at(k)->intersect(mt->x2,mt->y2,mt->z2,
-                            w->xcam, w->ycam, w->zcam, lights)) {
+                    if (structures->at(k)->intersect(mt->x2, mt->y2, mt->z2,
+                            w->xcam, w->ycam, w->zcam, lights, isFire)) {
                         w->collided = true;
                         mt->collided = true;
                         if (w->initCollision && w->collided) {
                             w->setCollisionTrajectories();
                             w->initCollision = false;
                         }
+                        if (!isFire) {
+                            structures->at(k)->revive();
+                            for (int m = lights->size() - 1; m >= 1; m--) {
+                                Light *l = lights->at(m);
+                                lights->erase(lights->begin() + m);
+                                delete l;
+                            }
+                        }
                     }
+                }
+                if (w->ypos <= 0) {
+                    w->collided = true;
+                    w->ypos = 1;
+                        mt->collided = true;
+                        if (w->initCollision && w->collided) {
+                            w->setCollisionTrajectories();
+                            w->initCollision = false;
+                        }
                 }
             }
         }
@@ -143,11 +166,11 @@ void Player::keyboard(bool *keys, double dt) {
         zpos -= sineStep;
     }
 
-    if (keys['t']) {
-        if (this->weapons.size() < 1) {
-            this->weapons.push_back(new Firebomb("bomb.msh", this->xpos, this->ypos, this->zpos,
-                this->xcam, this->ycam, this->zcam));
-        }
-    }
+    //    if (keys['t']) {
+    //        if (this->weapons.size() < 1) {
+    //            this->weapons.push_back(new Firebomb("firebomb.msh", this->xpos, this->ypos, this->zpos,
+    //                this->xcam, this->ycam, this->zcam));
+    //        }
+    //    }
 }
 

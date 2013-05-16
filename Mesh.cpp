@@ -97,22 +97,38 @@ void Mesh::readModel(const char* filename) {  // function reading in Blender mod
 
 void Mesh::draw(double dt) {
     glPushMatrix();
+    glEnable(GL_BLEND);
     glBegin(GL_TRIANGLES);
     for (int i = 0; i < this->tris.size(); i++) {
         MeshTriangle *tri = tris.at(i);
+        
+        int mtlIndex = 0;
+        for (int j = 0; j < this->mtlIndices.size(); j++) {
+            if (i < this->mtlIndices.at(j)) {
+                mtlIndex = j;
+                break;
+            }
+        }
+        double r = this->mtls.at(3 * mtlIndex);
+        double g = this->mtls.at(3 * mtlIndex + 1);
+        double b = this->mtls.at(3 * mtlIndex + 2);
+        glColor3d(r,g,b);
+        
+        
         glVertex3f(tri->x0,tri->y0,tri->z0);
         glVertex3f(tri->x1,tri->y1,tri->z1);
         glVertex3f(tri->x2,tri->y2,tri->z2);
     }
     glEnd();
+    glDisable(GL_BLEND);
     glPopMatrix();
 }
 
 bool Mesh::intersect(double xpos, double ypos, double zpos,
-        double xcam, double ycam, double zcam, vector<Light*> *lights) {
+        double xcam, double ycam, double zcam, vector<Light*> *lights, bool isFire) {
     for (int i = 0; i < this->tris.size(); i++) {
         if (tris.at(i)->burnt) continue;
-        if (tris.at(i)->intersect(xpos,ypos,zpos,xcam,ycam,zcam,lights)) {
+        if (tris.at(i)->intersect(xpos,ypos,zpos,xcam,ycam,zcam,lights,isFire)) {
             return true;
         }
     }

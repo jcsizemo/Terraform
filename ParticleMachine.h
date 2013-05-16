@@ -58,6 +58,10 @@ public:
     
     PARTICLES Particle[10];
     
+    double oX;
+    double oY;
+    double oZ;
+    
 private:
 
 };

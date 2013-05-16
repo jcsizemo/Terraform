@@ -51,7 +51,7 @@ public:
     bool burnt;
     double burnTimer;
     bool intersect(double xpos, double ypos, double zpos, double xcam, 
-        double ycam, double zcam, vector<Light*> *lights);
+        double ycam, double zcam, vector<Light*> *lights, bool isFire);
 private:
 
 };

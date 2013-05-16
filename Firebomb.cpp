@@ -8,14 +8,11 @@
 #include "Firebomb.h"
 #include <cmath>
 
-double vel = 20;
+double vel = 30;
 
 Firebomb::Firebomb(const char *filename, double xpos, double ypos, double zpos,
         double xcam, double ycam, double zcam) : Weapon(filename, xpos,
 ypos, zpos, xcam, ycam, zcam) {
-    this->color[0] = 1;
-    this->color[1] = 0;
-    this->color[2] = 0;
 }
 
 Firebomb::~Firebomb() {

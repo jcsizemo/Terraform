@@ -12,10 +12,7 @@ double aG = 0.1;
 double aB = 0.1;
 
 Structure::Structure(const char* filename, double xpos, double ypos,
-        double zpos, double *color) : Mesh(filename, xpos, ypos, zpos) {
-    this->color[0] = color[0];
-    this->color[1] = color[1];
-    this->color[2] = color[2];
+        double zpos) : Mesh(filename, xpos, ypos, zpos) {
 }
 
 Structure::~Structure() {
@@ -27,9 +24,10 @@ void Structure::draw(double dt, vector<Light*> *lights) {
     for (int i = 0; i < this->tris.size(); i++) {
         MeshTriangle *tri = tris.at(i);
         int mtlIndex = 0;
+
         for (int j = 0; j < this->mtlIndices.size(); j++) {
             if (i < this->mtlIndices.at(j)) {
-                mtlIndex = j - 1;
+                mtlIndex = j;
                 break;
             }
         }
@@ -112,3 +110,15 @@ void Structure::draw(double dt, vector<Light*> *lights) {
     glColor3d(0, 0, 0);
 }
 
+void Structure::revive(void) {
+    for (int m = 0; m < this->tris.size(); m++) {
+        this->tris.at(m)->burnt = false;
+        this->tris.at(m)->collided = false;
+        this->tris.at(m)->burnTimer = 0;
+    }
+    for (int m = this->particles.size() - 1; m >= 0; m--) {
+        ParticleMachine *pm = this->particles.at(m);
+        this->particles.erase(this->particles.begin() + m);
+        delete pm;
+    }
+}

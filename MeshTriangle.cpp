@@ -56,7 +56,7 @@ MeshTriangle::~MeshTriangle() {
 }
 
 bool MeshTriangle::intersect(double xpos, double ypos, double zpos,
-        double xcam, double ycam, double zcam, vector<Light*> *lights) {
+        double xcam, double ycam, double zcam, vector<Light*> *lights, bool isFire) {
 
     // Rename the components of each vertex for convienience (and save many
     // field access computations)
@@ -109,6 +109,8 @@ bool MeshTriangle::intersect(double xpos, double ypos, double zpos,
     // increase the value is t > 1 to expand influence of collision
     if (t < 0 || t > 1 || (t != t))
         return false;
+    
+    if (!isFire) return true;
 
     // Faster to compute location using barycentric coordinates than
     // computations using Vector3

@@ -17,7 +17,6 @@ public:
     Weapon(const char *filename, double xpos, double ypos, double zpos,
             double xcam, double ycam, double zcam);
     virtual ~Weapon();
-    double color[3];
     double xcam;
     double ycam;
     double zcam;
