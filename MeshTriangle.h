@@ -48,6 +48,8 @@ public:
     double F;
     double ctSpd;
     bool collided;
+    bool burnt;
+    double burnTimer;
     bool intersect(double xpos, double ypos, double zpos, double xcam, 
         double ycam, double zcam, vector<Light*> *lights);
 private:

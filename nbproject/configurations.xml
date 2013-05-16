@@ -20,6 +20,7 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <itemPath>bomb.msh</itemPath>
       <itemPath>../../Desktop/brightFlame.raw</itemPath>
       <itemPath>flame.raw</itemPath>
       <itemPath>grass.raw</itemPath>

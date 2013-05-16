@@ -8,7 +8,7 @@
 #include "Firebomb.h"
 #include <cmath>
 
-double vel = 80;
+double vel = 20;
 
 Firebomb::Firebomb(const char *filename, double xpos, double ypos, double zpos,
         double xcam, double ycam, double zcam) : Weapon(filename, xpos,

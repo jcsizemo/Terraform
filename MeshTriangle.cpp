@@ -18,6 +18,8 @@ MeshTriangle::MeshTriangle(Mesh *parent, int inV0, int inV1, int inV2) {
     this->ctZ = 0;
     this->ctSpd = 0;
     this->collided = false;
+    this->burnt = false;
+    this->burnTimer = 0;
 
     this->x0 = this->parent->verts.at(3 * v0);
     this->y0 = this->parent->verts.at(3 * v0 + 1);

@@ -23,6 +23,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <map>
 #include "ParticleMachine.h"
 #include "Light.h"
 
@@ -38,11 +39,12 @@ public:
     Mesh(const Mesh& orig);
     virtual ~Mesh();
     void readModel(const char* filename);
-    void setMeshData(double *vertices, int *triangles, int numVerts, int numTris);
+    void setMeshData(double *vertices, int *tris, int *mtlIndices, 
+        double *mtls, int numVerts, int numTris, int numObjs);
     vector<double> verts;
     vector<MeshTriangle*> tris;
     vector<ParticleMachine*> particles;
-    vector<int> mtlIndices;
+    map<int,int> mtlIndices;
     vector<double> mtls;
     virtual void draw(double dt);
     bool intersect(double xpos, double ypos, double zpos, 

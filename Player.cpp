@@ -19,7 +19,7 @@
 #endif
 #include <cmath>
 
-double movePerSec = 50;
+double movePerSec = 19;
 
 Player::Player(double x, double y, double z, double xrot, double yrot) {
     this->xpos = x;
@@ -57,7 +57,7 @@ void Player::camera(double dt, vector<Structure*> *structures, vector<Light*> *l
     for (int i = 0; i < this->weapons.size(); i++) {
         glPushMatrix();
         Weapon *w = this->weapons.at(i);
-        if (w->t > 1) {
+        if (w->t > 2) {
             weapons.erase(weapons.begin() + i);
             delete w;
         } else {
@@ -145,7 +145,7 @@ void Player::keyboard(bool *keys, double dt) {
 
     if (keys['t']) {
         if (this->weapons.size() < 1) {
-            this->weapons.push_back(new Firebomb("sphere.msh", this->xpos, this->ypos, this->zpos,
+            this->weapons.push_back(new Firebomb("bomb.msh", this->xpos, this->ypos, this->zpos,
                 this->xcam, this->ycam, this->zcam));
         }
     }
