@@ -30,7 +30,7 @@ MeshTriangle::MeshTriangle(Mesh *parent, int inV0, int inV1, int inV2) {
     this->x2 = this->parent->verts.at(3 * v2);
     this->y2 = this->parent->verts.at(3 * v2 + 1);
     this->z2 = this->parent->verts.at(3 * v2 + 2);
-    
+
     // Compute elements of the triangle ray matrix
     this->A = x0 - x1;
     this->B = y0 - y1;
@@ -42,7 +42,7 @@ MeshTriangle::MeshTriangle(Mesh *parent, int inV0, int inV1, int inV2) {
     this->nX = B * F - C * E;
     this->nY = C * D - A * F;
     this->nZ = A * E - B * D;
-    
+
     double mag = sqrt(nX * nX + nY * nY + nZ * nZ);
     this->nX /= mag;
     this->nY /= mag;
@@ -107,7 +107,7 @@ bool MeshTriangle::intersect(double xpos, double ypos, double zpos,
     // ray.end is 1. Want to check if the intersection is right in front of the player
     // t != t will be false if t is NaN
     // increase the value is t > 1 to expand influence of collision
-    if (t < 0 || t > 1 || (t != t))
+    if (t < 0 || t > 0.1 || (t != t))
         return false;
 
     // Faster to compute location using barycentric coordinates than
@@ -115,27 +115,15 @@ bool MeshTriangle::intersect(double xpos, double ypos, double zpos,
     double weight0 = 1 - beta - gamma; // Barycentric coordinates total 1
 
     if (nY > 0.2 && !this->collided) {
-            double oX = weight0 * this->x0 + beta * this->x1 + gamma * this->x2;
-            double oY = weight0 * this->y0 + beta * this->y1 + gamma * this->y2;
-            double oZ = weight0 * this->z0 + beta * this->z1 + gamma * this->z2;
-            Flame *f = new Flame(oX, oY, oZ);
-            if (this->parent->particles.size() < 10) {
-                this->parent->particles.push_back(f);
-                lights->push_back(new Light(oX,oY,oZ,1,0,0));
-            }
-            else {
-                ParticleMachine *pm = this->parent->particles.at(0);
-                this->parent->particles.erase(this->parent->particles.begin());
-                delete pm;
-                Light *l = lights->at(1);
-                lights->erase(lights->begin()+1);
-                delete l;
-                this->parent->particles.push_back(f);
-                lights->push_back(new Light(oX,oY,oZ,1,0,0));
-            }
+        double oX = weight0 * this->x0 + beta * this->x1 + gamma * this->x2;
+        double oY = weight0 * this->y0 + beta * this->y1 + gamma * this->y2;
+        double oZ = weight0 * this->z0 + beta * this->z1 + gamma * this->z2;
+        Flame *f = new Flame(oX, oY, oZ);
+        this->parent->particles.push_back(f);
+        lights->push_back(new Light(oX, oY, oZ, 1, 0, 0));
+        this->collided = true;
     }
 
-    this->collided = true;
     return true;
 
 }

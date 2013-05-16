@@ -24,7 +24,6 @@ Structure::~Structure() {
 void Structure::draw(double dt, vector<Light*> *lights) {
     glPushMatrix();
 
-
     for (int i = 0; i < this->tris.size(); i++) {
         MeshTriangle *tri = tris.at(i);
         int mtlIndex = 0;
@@ -34,12 +33,12 @@ void Structure::draw(double dt, vector<Light*> *lights) {
                 break;
             }
         }
-        double r = this->mtls.at(3*mtlIndex);
-        double g = this->mtls.at(3*mtlIndex+1);
-        double b = this->mtls.at(3*mtlIndex+2);
-        double color0[3] = {aR,aG,aB};
-        double color1[3] = {aR,aG,aB};
-        double color2[3] = {aR,aG,aB};
+        double r = this->mtls.at(3 * mtlIndex);
+        double g = this->mtls.at(3 * mtlIndex + 1);
+        double b = this->mtls.at(3 * mtlIndex + 2);
+        double color0[3] = {aR, aG, aB};
+        double color1[3] = {aR, aG, aB};
+        double color2[3] = {aR, aG, aB};
         double N[] = {tri->nX, tri->nY, tri->nZ};
         for (int j = 0; j < lights->size(); j++) {
             Light *l = lights->at(j);
@@ -64,33 +63,47 @@ void Structure::draw(double dt, vector<Light*> *lights) {
             if (LdN0 < 0) LdN0 = 0;
             if (LdN1 < 0) LdN1 = 0;
             if (LdN2 < 0) LdN2 = 0;
-            color0[0] += l->r * LdN0 * this->mtls.at(3*mtlIndex);
-            color0[1] += l->g * LdN0 * this->mtls.at(3*mtlIndex+1);
-            color0[2] += l->b * LdN0 * this->mtls.at(3*mtlIndex+2);
-            color1[0] += l->r * LdN1 * this->mtls.at(3*mtlIndex);
-            color1[1] += l->g * LdN1 * this->mtls.at(3*mtlIndex+1);
-            color1[2] += l->b * LdN1 * this->mtls.at(3*mtlIndex+2);
-            color2[0] += l->r * LdN2 * this->mtls.at(3*mtlIndex);
-            color2[1] += l->g * LdN2 * this->mtls.at(3*mtlIndex+1);
-            color2[2] += l->b * LdN2 * this->mtls.at(3*mtlIndex+2);
+            color0[0] += l->r * LdN0 * this->mtls.at(3 * mtlIndex);
+            color0[1] += l->g * LdN0 * this->mtls.at(3 * mtlIndex + 1);
+            color0[2] += l->b * LdN0 * this->mtls.at(3 * mtlIndex + 2);
+            color1[0] += l->r * LdN1 * this->mtls.at(3 * mtlIndex);
+            color1[1] += l->g * LdN1 * this->mtls.at(3 * mtlIndex + 1);
+            color1[2] += l->b * LdN1 * this->mtls.at(3 * mtlIndex + 2);
+            color2[0] += l->r * LdN2 * this->mtls.at(3 * mtlIndex);
+            color2[1] += l->g * LdN2 * this->mtls.at(3 * mtlIndex + 1);
+            color2[2] += l->b * LdN2 * this->mtls.at(3 * mtlIndex + 2);
         }
         glEnable(GL_BLEND);
         if (tri->collided) {
+            tri->burnTimer += dt;
+            if (tri->burnTimer > 5) {
+                int particleSize = this->particles.size();
+                int lightSize = lights->size();
+                tri->burnt = true;
+                ParticleMachine *pm = this->particles.at(0);
+                this->particles.erase(this->particles.begin());
+                delete pm;
+                Light *l = lights->at(1);
+                lights->erase(lights->begin() + 1);
+                delete l;
+                tri->burnTimer = 0;
+                tri->collided = false;
+            }
             for (int i = 0; i < this->particles.size(); i++) {
                 ParticleMachine *pm = particles.at(i);
                 pm->updateParticles(dt);
                 pm->drawParticles(dt);
             }
         }
-        else {
+        if (!tri->burnt) {
             glBegin(GL_TRIANGLES);
-        glColor3dv(color0);
-        glVertex3f(tri->x0, tri->y0, tri->z0);
-        glColor3dv(color1);
-        glVertex3f(tri->x1, tri->y1, tri->z1);
-        glColor3dv(color2);
-        glVertex3f(tri->x2, tri->y2, tri->z2);
-        glEnd();
+            glColor3dv(color0);
+            glVertex3f(tri->x0, tri->y0, tri->z0);
+            glColor3dv(color1);
+            glVertex3f(tri->x1, tri->y1, tri->z1);
+            glColor3dv(color2);
+            glVertex3f(tri->x2, tri->y2, tri->z2);
+            glEnd();
         }
         glDisable(GL_BLEND);
     }

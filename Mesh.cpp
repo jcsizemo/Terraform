@@ -100,11 +100,6 @@ void Mesh::draw(double dt) {
     glBegin(GL_TRIANGLES);
     for (int i = 0; i < this->tris.size(); i++) {
         MeshTriangle *tri = tris.at(i);
-        if (tri->collided) tri->burnTimer += dt;
-        if (tri->burnTimer > 5) {
-            tri->burnt = true;
-            tri->collided = false;
-        }
         glVertex3f(tri->x0,tri->y0,tri->z0);
         glVertex3f(tri->x1,tri->y1,tri->z1);
         glVertex3f(tri->x2,tri->y2,tri->z2);
@@ -116,7 +111,7 @@ void Mesh::draw(double dt) {
 bool Mesh::intersect(double xpos, double ypos, double zpos,
         double xcam, double ycam, double zcam, vector<Light*> *lights) {
     for (int i = 0; i < this->tris.size(); i++) {
-        if (tris.at(i)->collided) continue;
+        if (tris.at(i)->burnt) continue;
         if (tris.at(i)->intersect(xpos,ypos,zpos,xcam,ycam,zcam,lights)) {
             return true;
         }
