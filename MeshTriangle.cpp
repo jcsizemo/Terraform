@@ -2,6 +2,9 @@
  * File:   MeshTriangle.cpp
  * Author: John
  * 
+ * MeshTriangle class serving functions detecting intersections and also
+ * holds values such as vertex x,y,z values and normals.
+ * 
  * Created on May 1, 2013, 8:28 PM
  */
 
@@ -9,18 +12,25 @@
 #include "Flame.h"
 
 MeshTriangle::MeshTriangle(Mesh *parent, int inV0, int inV1, int inV2) {
+    // parent mesh
     this->parent = parent;
+    // triangle vertices
     this->v0 = inV0;
     this->v1 = inV1;
     this->v2 = inV2;
+    // explosion vector used for weapons
     this->ctX = 0;
     this->ctY = 0;
     this->ctZ = 0;
+    // explosion speed
     this->ctSpd = 0;
+    // if something has collided with the triangle
     this->collided = false;
+    // burnt flag and life timer
     this->burnt = false;
     this->burnTimer = 0;
 
+    // x,y,z coords of triangle
     this->x0 = this->parent->verts.at(3 * v0);
     this->y0 = this->parent->verts.at(3 * v0 + 1);
     this->z0 = this->parent->verts.at(3 * v0 + 2);
@@ -39,10 +49,12 @@ MeshTriangle::MeshTriangle(Mesh *parent, int inV0, int inV1, int inV2) {
     this->E = y0 - y2;
     this->F = z0 - z2;
 
+    // normal of triangle
     this->nX = B * F - C * E;
     this->nY = C * D - A * F;
     this->nZ = A * E - B * D;
 
+    // normalize the normal
     double mag = sqrt(nX * nX + nY * nY + nZ * nZ);
     this->nX /= mag;
     this->nY /= mag;
@@ -116,10 +128,15 @@ bool MeshTriangle::intersect(double xpos, double ypos, double zpos,
     // computations using Vector3
     double weight0 = 1 - beta - gamma; // Barycentric coordinates total 1
 
+    // check if the normal is pointing upwards so that the flame takes hold
+    // on a surface that makes sense
     if (nY > 0.2 && !this->collided) {
+        // get point of collision
         double oX = weight0 * this->x0 + beta * this->x1 + gamma * this->x2;
         double oY = weight0 * this->y0 + beta * this->y1 + gamma * this->y2;
         double oZ = weight0 * this->z0 + beta * this->z1 + gamma * this->z2;
+        // add flame to list within structure and add the new light
+        // caused by the flame to global light list
         Flame *f = new Flame(oX, oY, oZ);
         this->parent->particles.push_back(f);
         lights->push_back(new Light(oX, oY, oZ, 1, 0, 0));

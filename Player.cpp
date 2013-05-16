@@ -3,6 +3,9 @@
  * Author: John
  * 
  * Created on May 1, 2013, 4:43 PM
+ * 
+ * Player class. Controls player movement as well as throwable object
+ * interactions with other interactive structures in the scene.
  */
 
 #include <cstdlib>
@@ -19,14 +22,18 @@
 #endif
 #include <cmath>
 
+// player movement speed
 double movePerSec = 19;
 
+// initial position and rotation values
 Player::Player(double x, double y, double z, double xrot, double yrot) {
     this->xpos = x;
     this->ypos = y;
     this->zpos = z;
     this->xrot = xrot;
     this->yrot = yrot;
+    // set this to make sure camera doesn't go nuts when the touchpad is
+    // touched for the first time
     this->firstTouch = true;
 }
 
@@ -48,24 +55,32 @@ void Player::camera(double dt, vector<Structure*> *structures, vector<Light*> *l
     for (int i = 0; i < this->weapons.size(); i++) {
         glPushMatrix();
         Weapon *w = this->weapons.at(i);
+        // if weapon exceeds lifespan, delete it
         if (w->t > 2) {
             weapons.erase(weapons.begin() + i);
             delete w;
         } else {
+            // otherwise draw the weapon
             w->draw(dt);
+            // check for firebomb or water balloon
             bool isFire = w->isFirebomb();
             for (int j = 0; j < w->tris.size(); j++) {
                 MeshTriangle *mt = w->tris.at(j);
                 for (int k = 0; k < structures->size(); k++) {
+                    // loop checking if weapon hit a interactive structure
                     if (structures->at(k)->intersect(mt->x0, mt->y0, mt->z0,
                             w->xcam, w->ycam, w->zcam, lights, isFire)) {
+                        // first triangle vertex
                         w->collided = true;
                         mt->collided = true;
                         if (w->initCollision && w->collided) {
+                            // init explosion vectors/speeds
                             w->setCollisionTrajectories();
                             w->initCollision = false;
                         }
                         if (!isFire) {
+                            // revive tree if a water balloon, extinguish
+                            // fires
                             structures->at(k)->revive();
                             for (int m = lights->size() - 1; m >= 1; m--) {
                                 Light *l = lights->at(m);
@@ -76,6 +91,7 @@ void Player::camera(double dt, vector<Structure*> *structures, vector<Light*> *l
                     }
                     if (structures->at(k)->intersect(mt->x1, mt->y1, mt->z1,
                             w->xcam, w->ycam, w->zcam, lights, isFire)) {
+                        // second triangle vertex
                         w->collided = true;
                         mt->collided = true;
                         if (w->initCollision && w->collided) {
@@ -93,6 +109,7 @@ void Player::camera(double dt, vector<Structure*> *structures, vector<Light*> *l
                     }
                     if (structures->at(k)->intersect(mt->x2, mt->y2, mt->z2,
                             w->xcam, w->ycam, w->zcam, lights, isFire)) {
+                        // third triangle vertex
                         w->collided = true;
                         mt->collided = true;
                         if (w->initCollision && w->collided) {
@@ -110,6 +127,8 @@ void Player::camera(double dt, vector<Structure*> *structures, vector<Light*> *l
                     }
                 }
                 if (w->ypos <= 0) {
+                    // if the weapon hits the ground just make it explode,
+                    // any fragments will influence interactive meshes
                     w->collided = true;
                     w->ypos = 1;
                         mt->collided = true;
@@ -165,12 +184,5 @@ void Player::keyboard(bool *keys, double dt) {
         xpos -= cosStep;
         zpos -= sineStep;
     }
-
-    //    if (keys['t']) {
-    //        if (this->weapons.size() < 1) {
-    //            this->weapons.push_back(new Firebomb("firebomb.msh", this->xpos, this->ypos, this->zpos,
-    //                this->xcam, this->ycam, this->zcam));
-    //        }
-    //    }
 }
 

@@ -3,13 +3,17 @@
  * Author: John
  * 
  * Created on May 5, 2013, 5:37 PM
+ * 
+ * Class for the water balloon weapon. Revives trees.
  */
 
 #include "WaterBalloon.h"
 #include <cmath>
 
+// water balloon velocity
 double waterVel = 30;
 
+// mesh file, position, and direction
 WaterBalloon::WaterBalloon(const char *filename, double xpos, double ypos, double zpos,
         double xcam, double ycam, double zcam) : Weapon(filename, xpos,
 ypos, zpos, xcam, ycam, zcam) {
@@ -18,6 +22,7 @@ ypos, zpos, xcam, ycam, zcam) {
 WaterBalloon::~WaterBalloon() {
 }
 
+// not a firebomb!
 bool WaterBalloon::isFirebomb() {
     return false;
 }
@@ -25,6 +30,7 @@ bool WaterBalloon::isFirebomb() {
 void WaterBalloon::draw(double dt) {
     Weapon::draw(dt);
     if (!this->collided) {
+        // update position along direction if object hasn't hit anything
         double dx = waterVel * dt*xcam;
         double dy = waterVel * dt*ycam;
         double dz = waterVel * dt*zcam;
@@ -43,6 +49,7 @@ void WaterBalloon::draw(double dt) {
             this->tris.at(i)->z2 += dz;
         }
     } else {
+        // otherwise, update each triangle based on specified speed/direction
         for (int i = 0; i < this->tris.size(); i++) {
             MeshTriangle *mt = this->tris.at(i);
             if (!mt->collided) {
@@ -62,10 +69,11 @@ void WaterBalloon::draw(double dt) {
 
         }
     }
-
+    // update object lifespan
     this->t = this->t + dt;
 }
 
+// init speeds and directions of each triangle when exploding
 void WaterBalloon::setCollisionTrajectories() {
     for (int i = 0; i < this->tris.size(); i++) {
         MeshTriangle *mt = this->tris.at(i);

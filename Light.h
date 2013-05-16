@@ -1,6 +1,8 @@
 /* 
  * File:   Light.h
  * Author: John
+ * 
+ * Light class used in Phong shading.
  *
  * Created on May 14, 2013, 7:36 PM
  */
@@ -11,12 +13,12 @@
 class Light {
 public:
     Light(double xpos, double ypos, double zpos, 
-            double r, double g, double b);
+            double r, double g, double b); // init light with rgb values and position
     virtual ~Light();
-    double xpos;
+    double xpos; // position
     double ypos;
     double zpos;
-    double r;
+    double r; // rgb values
     double g;
     double b;
 private:

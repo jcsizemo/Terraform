@@ -1,6 +1,9 @@
 /* 
  * File:   Mesh.h
  * Author: John
+ * 
+ * Mesh class. General purpose class used to define base operations for
+ * all meshes such as reading mesh fils and drawing.
  *
  * Created on May 1, 2013, 5:43 PM
  */
@@ -38,7 +41,10 @@ public:
     Mesh(const char* filename, double xpos, double ypos, double zpos);
     Mesh(const Mesh& orig);
     virtual ~Mesh();
+    // read .msh file and parse data
     void readModel(const char* filename);
+    // send parsed data to this function to build the mesh object.
+    // adds vertices, triangles, and material colors
     void setMeshData(double *vertices, int *tris, int *mtlIndices, 
         double *mtls, int numVerts, int numTris, int numObjs);
     vector<double> verts;
@@ -46,9 +52,16 @@ public:
     vector<ParticleMachine*> particles;
     map<int,int> mtlIndices;
     vector<double> mtls;
+    // draw function which draws the triangles of the mesh. inherited by
+    // subclasses to perform additional duties
     virtual void draw(double dt);
+    // intersect function which takes an incoming point's position and direction
+    // as well as a list of lights in the scene. The incoming object is either
+    // a firebomb or a water balloon so a boolean is declared checking which
+    // is which.
     bool intersect(double xpos, double ypos, double zpos, 
         double xcam, double ycam, double zcam, vector<Light*> *lights, bool isFire);
+    // x,y,z coords of mesh
     double xpos;
     double ypos;
     double zpos;

@@ -20,13 +20,11 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
-      <itemPath>../../Desktop/brightFlame.raw</itemPath>
       <itemPath>firebomb.msh</itemPath>
-      <itemPath>flame.raw</itemPath>
+      <itemPath>../../Desktop/flame.raw</itemPath>
       <itemPath>grass.raw</itemPath>
       <itemPath>moon.raw</itemPath>
       <itemPath>stars.raw</itemPath>
-      <itemPath>stars2.raw</itemPath>
       <itemPath>tree.msh</itemPath>
       <itemPath>waterballoon.msh</itemPath>
     </logicalFolder>

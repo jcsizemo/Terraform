@@ -1,6 +1,8 @@
 /* 
  * File:   Flame.h
  * Author: John
+ * 
+ * Class for the flames which appear when a tree is hit with a firebomb.
  *
  * Created on May 13, 2013, 3:38 AM
  */
@@ -11,14 +13,14 @@
 #include "ParticleMachine.h"
 #include <cmath>
 
-class ParticleMachine;
+class ParticleMachine; // extends ParticleMachine class
 
 class Flame : public ParticleMachine {
 public:
-    Flame(double oX, double oY, double oZ);
-    void updateParticles(double dt);
-    void drawParticles(double dt);
-    void createParticles(double oX, double oY, double oZ);
+    Flame(double oX, double oY, double oZ);     //init Flame with position
+    void updateParticles(double dt);    // update the particle positions, vectors
+    void drawParticles(double dt);      // draw particles with updated information
+    void createParticles(double oX, double oY, double oZ);      // init particles
     virtual ~Flame();
 private:
 

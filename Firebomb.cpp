@@ -2,14 +2,18 @@
  * File:   Firebomb.cpp
  * Author: John
  * 
+ * Firebomb class definition. Draws the firebomb and sets explosion values.
+ * 
  * Created on May 5, 2013, 5:37 PM
  */
 
 #include "Firebomb.h"
 #include <cmath>
 
+// firebomb velocity
 double vel = 30;
 
+// call superclass
 Firebomb::Firebomb(const char *filename, double xpos, double ypos, double zpos,
         double xcam, double ycam, double zcam) : Weapon(filename, xpos,
 ypos, zpos, xcam, ycam, zcam) {
@@ -18,19 +22,23 @@ ypos, zpos, xcam, ycam, zcam) {
 Firebomb::~Firebomb() {
 }
 
+// return true as this is a firebomb
 bool Firebomb::isFirebomb() {
     return true;
 }
 
 void Firebomb::draw(double dt) {
+    // call superclass to do time based animation
     Weapon::draw(dt);
     if (!this->collided) {
+        // update position based on time
         double dx = vel * dt*xcam;
         double dy = vel * dt*ycam;
         double dz = vel * dt*zcam;
         this->xpos += dx;
         this->ypos += dy;
         this->zpos += dz;
+        // update triangles based on changes in coords due to time
         for (int i = 0; i < this->tris.size(); i++) {
             this->tris.at(i)->x0 += dx;
             this->tris.at(i)->x1 += dx;
@@ -43,6 +51,9 @@ void Firebomb::draw(double dt) {
             this->tris.at(i)->z2 += dz;
         }
     } else {
+        // if the firebomb has collided, move each
+        // triangles along the specified direction
+        // with the specified speed
         for (int i = 0; i < this->tris.size(); i++) {
             MeshTriangle *mt = this->tris.at(i);
             if (!mt->collided) {
@@ -62,10 +73,11 @@ void Firebomb::draw(double dt) {
 
         }
     }
-
+    // update object lifespan
     this->t = this->t + dt;
 }
 
+// in a collision, set triangle speeds and directions
 void Firebomb::setCollisionTrajectories() {
     for (int i = 0; i < this->tris.size(); i++) {
         MeshTriangle *mt = this->tris.at(i);
